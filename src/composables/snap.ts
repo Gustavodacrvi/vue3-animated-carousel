@@ -1,15 +1,17 @@
-import { CarouselCompositionSetupContext, CarouselNodeRef, GetClosestItemAtTheCenterMethod, IsSnappingRef, MoveToItemMethod, RunOnScrollEndMethod, SnapPropRef } from "vue3-carousel";
+import { CarouselCompositionSetupContext, CarouselNodeRef, GetClosestItemAtTheCenterMethod, InitialSnapRef, IsSnappingRef, MoveToItemMethod, RunOnScrollEndMethod, SnapPropRef } from "vue3-carousel";
 import { nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue';
 
 export default ({
   getClosestItemAtTheCenter,
   runOnScrollEnd,
   moveToItem,
+  initialSnap,
   snap,
   carousel,
 }: {
   carousel: CarouselNodeRef;
   snap: SnapPropRef;
+  initialSnap: InitialSnapRef;
   getClosestItemAtTheCenter: GetClosestItemAtTheCenterMethod;
   runOnScrollEnd: RunOnScrollEndMethod;
   moveToItem: MoveToItemMethod;
@@ -43,6 +45,7 @@ export default ({
   watch(snap, val => val && snapToCenter())
   
   onMounted(() => {
+    if (initialSnap.value === null && snap.value) snapToCenter()
     window.addEventListener("resize", scroll, {passive: true})
     carousel.value.addEventListener("scroll", scroll, {passive: true})
   })

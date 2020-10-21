@@ -5,6 +5,7 @@
 * [Introduction](#introduction)
 * [Getting Started](#getting-started)
 * [v-models](#v-models)
+* [v-models Initial Mount Precedence](#v-models-precedence)
 * [Props](#props)
 * [Methods and Slot Props](#methods-and-slot-props)
   * [Before/After Slots](#before-after-slots)
@@ -19,7 +20,6 @@
   * [Navigation And Slots Example](#navigation-and-slots-example)
 
 ## Getting Started
-
 
 ```
   # npm
@@ -44,6 +44,9 @@ This module uses mostly modern solutions, if you need to support super old brows
 | activeItemIndex       | 0 | number | The index of the active item(childNode), changing this prop focuses on the item at the specified index. |
 | position       | 0 | number | Current scroll position, changing this prop updates the scroll position. Uses **scrollTop** when the **direction** is vertical and **scrollLeft** when it's horizontal.  |
 
+## v-models Initial Mount Precedence
+
+The initial mount precedence from higher to lower is "modelValue", "activeItemIndex", "activeItemIndex" and "position", that means if the initial **activeItemIndex** value is 3, the carousel would focus on the fourth item, however, if the initial value of **modelValue** is also 2, then the carousel will "ignore" **activeItemIndex** and go to the second page instead because modelValue has higher precedence.
 
 ## Props
 

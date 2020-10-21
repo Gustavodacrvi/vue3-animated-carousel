@@ -31,9 +31,10 @@ export type MoveToItemAtIndex = (chlidNodeIndex: number) => Element | undefined;
 export type FocusOnClickMethod = (evt: MouseEvent) => Element | null;
 export type GoToPageMethod = (pageIndex: number) => number;
 
+export type InitialSnapRef = Ref<null | 'page' | 'position' | 'item' | 'itemIndex'>;
 export type GetClosestItemAtTheCenterMethod = (getRects?: boolean) => Element;
 export type RunOnScrollEndMethod = (func: () => void) => void;
-export type MoveToItemMethod = (element: Element | EventTarget | HTMLElement | null) => void;
+export type MoveToItemMethod = (element: Element | HTMLElement | null) => void;
 export type CarouselNodeRef = Ref<HTMLElement>;
 export type ItemsRef = Ref<Element[]>;
 export type RectsRef = Ref<ItemRect[]>;

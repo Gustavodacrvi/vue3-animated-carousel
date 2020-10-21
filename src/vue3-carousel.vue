@@ -99,6 +99,7 @@ import itemsFeature from "./composables/items"
 import animationFeature from "./composables/animation"
 import snapFeature from "./composables/snap"
 import mouseFeature from "./composables/mousedrag"
+import vModelsSnapFeature from "./composables/vModelsSnap"
 
 export default defineComponent({
   emits: [
@@ -136,7 +137,7 @@ export default defineComponent({
       default: null,
     },
     activeItemIndex: {
-      type: Object as PropType<number>,
+      type: Number as PropType<number>,
       default: 0,
     },
     direction: {
@@ -188,6 +189,7 @@ export default defineComponent({
     const carousel = ref(null as unknown as HTMLElement)
     const isHorizontal = computed(() => props.direction === "horizontal")
 
+    const {initialSnap} = vModelsSnapFeature({modelValue, propActiveItemIndex, propActiveItem, propPosition})
 
     const {scrollTo, runOnScrollEnd} = scrollerFeature({carousel, isHorizontal, scrollBehavior}, context)
 
@@ -202,7 +204,7 @@ export default defineComponent({
     } = dimensionsFeature({isHorizontal, carousel}, context)
 
     const {active, numberOfPages} = pagesFeature({
-      clientSize, modelValue,
+      clientSize, modelValue, initialSnap,
       scrollTo, position, scrollSize,
     }, context)
 
@@ -219,7 +221,7 @@ export default defineComponent({
       focusOnClick,
       getClosestItemAtTheCenter,
     } = itemsFeature({
-      scrollTo, position, rects, saveDomRects, isHorizontal,
+      scrollTo, position, rects, saveDomRects, isHorizontal, initialSnap,
       clientSize, items, runOnScrollEnd, propActiveItem, propActiveItemIndex,
     }, context)
 
@@ -236,7 +238,7 @@ export default defineComponent({
       isSnapping,
     } = snapFeature({
       getClosestItemAtTheCenter, moveToItem, carousel,
-      runOnScrollEnd, snap,
+      runOnScrollEnd, snap, initialSnap,
     }, context)
 
     const {

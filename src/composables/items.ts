@@ -1,4 +1,4 @@
-import { ActiveItemIndexComputedRef, ActiveItemRef, ClientSizeRef, GetClosestItemAtTheCenterMethod, IsHorizontalPropRef, ItemsRef, MoveToItemAtIndex, MoveToItemMethod, NextItemMethod, PositionRef, PreviousItemMethod, ActiveItemIndexPropRef, ActiveItemPropRef, RectsRef, RunOnScrollEndMethod, SaveDomRectsMethod, FocusOnClickMethod, ScrollToMethod, CarouselCompositionSetupContext } from "vue3-carousel"
+import { ActiveItemIndexComputedRef, ActiveItemRef, ClientSizeRef, GetClosestItemAtTheCenterMethod, IsHorizontalPropRef, ItemsRef, MoveToItemAtIndex, MoveToItemMethod, NextItemMethod, PositionRef, PreviousItemMethod, ActiveItemIndexPropRef, ActiveItemPropRef, RectsRef, RunOnScrollEndMethod, SaveDomRectsMethod, FocusOnClickMethod, ScrollToMethod, CarouselCompositionSetupContext, InitialSnapRef } from "vue3-carousel"
 import { computed, nextTick, onBeforeUpdate, onMounted, ref, watch } from 'vue'
 
 export default ({
@@ -7,29 +7,28 @@ export default ({
   clientSize,
   position,
   saveDomRects,
-  propActiveItem,
   rects,
   items,
   runOnScrollEnd,
+  initialSnap,
+  propActiveItem,
   propActiveItemIndex,
 }: {
+  initialSnap: InitialSnapRef;
   scrollTo: ScrollToMethod;
   runOnScrollEnd: RunOnScrollEndMethod;
   rects: RectsRef;
   propActiveItem: ActiveItemPropRef;
+  propActiveItemIndex: ActiveItemIndexPropRef;
   items: ItemsRef;
   saveDomRects: SaveDomRectsMethod;
   isHorizontal: IsHorizontalPropRef;
   clientSize: ClientSizeRef;
-  propActiveItemIndex: ActiveItemIndexPropRef;
   position: PositionRef;
 }, {emit}: CarouselCompositionSetupContext) => {
   const activeItem = ref(null) as ActiveItemRef
   const activeItemIndex = computed(() => items.value.findIndex(item => item === activeItem.value)) as ActiveItemIndexComputedRef
 
-  watch(activeItemIndex, val => emit("update:activeItemIndex", val), {flush: "post"})
-  watch(activeItem, val => emit("update:activeItem", val), {flush: "post"})
-  
   const moveToItem = (el => {
     if (!el) return;
     const rect = el.getBoundingClientRect()
@@ -80,6 +79,12 @@ export default ({
     getClosestItemAtTheCenter()
   })
   onMounted(() => {
+    if (initialSnap.value === "item") {
+      moveToItem(propActiveItem.value)
+    } else if (initialSnap.value === "itemIndex") {
+      moveToItemAtIndex(propActiveItemIndex.value)
+    }
+    
     saveDomRects()
     getClosestItemAtTheCenter()
     runOnScrollEnd(infiniteLoop)
@@ -91,8 +96,10 @@ export default ({
     return target
   }) as MoveToItemAtIndex
 
-  watch(propActiveItem, moveToItem, {flush: "post"})
-  watch(propActiveItemIndex, moveToItemAtIndex, {flush: "post"})
+  watch(activeItemIndex, val => emit("update:activeItemIndex", val), {flush: "post"})
+  watch(activeItem, val => emit("update:activeItem", val), {flush: "post"})
+  watch(propActiveItem, moveToItem)
+  watch(propActiveItemIndex, moveToItemAtIndex)
 
   return {
     activeItem,
@@ -111,7 +118,7 @@ export default ({
     }) as PreviousItemMethod,
     moveToItemAtIndex,
     focusOnClick: (evt => {
-      evt.currentTarget && moveToItem(evt.currentTarget)
+      evt.currentTarget && moveToItem(<HTMLElement>evt.currentTarget)
       return evt.currentTarget
     }) as FocusOnClickMethod,
   }
