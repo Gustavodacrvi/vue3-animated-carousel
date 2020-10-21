@@ -1,13 +1,14 @@
 
-import { onBeforeUnmount, onBeforeUpdate, onMounted, ref, Ref, SetupContext, watch } from 'vue'
+import { CarouselNodeRef, ScrollSizeRef, IsHorizontalPropRef, PositionRef, ClientSizeRef, ItemsRef, RectsRef, SaveDomRectsMethod, CarouselCompositionSetupContext } from '@/types'
+import { onBeforeUnmount, onBeforeUpdate, onMounted, ref, watch } from 'vue'
 
 export default ({
   isHorizontal,
   carousel,
 }: {
-  isHorizontal: Ref<boolean>;
-  carousel: Ref<HTMLElement>;
-}, {emit}: SetupContext<any>) => {
+  isHorizontal: IsHorizontalPropRef;
+  carousel: CarouselNodeRef;
+}, {emit}: CarouselCompositionSetupContext) => {
   const getAvailableSize = () => {
     if (isHorizontal.value) return carousel.value.offsetWidth
     return carousel.value.offsetHeight
@@ -31,11 +32,11 @@ export default ({
     return nodes
   }
 
-  const position = ref(0)
-  const clientSize = ref(0)
-  const scrollSize = ref(0)
-  const items = ref([] as Element[])
-  const rects = ref([] as Rects)
+  const position = ref(0) as PositionRef
+  const clientSize = ref(0) as ClientSizeRef
+  const scrollSize = ref(0) as ScrollSizeRef
+  const items = ref([]) as ItemsRef
+  const rects = ref([]) as RectsRef
 
   watch(position, val => emit("update:position", val), {flush: "post"})
   watch(clientSize, val => emit("client-size", val))
@@ -43,13 +44,13 @@ export default ({
   watch(items, val => emit("items", val))
   watch(rects, val => emit("rects", val))
   
-  const saveDomRects = () => {
+  const saveDomRects = (() => {
     rects.value = items.value.map(node => ({
       rect: node.getBoundingClientRect(),
       node,
     }))
     return rects.value
-  }
+  }) as SaveDomRectsMethod
 
   const calculate = () => {
     const div = carousel.value

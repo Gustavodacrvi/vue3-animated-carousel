@@ -100,6 +100,8 @@ import animationFeature from "./composables/animation"
 import snapFeature from "./composables/snap"
 import mouseFeature from "./composables/mousedrag"
 
+import { CarouselCompositionSetupContext } from 'types'
+
 export default defineComponent({
   emits: [
     "number-of-pages",
@@ -124,11 +126,11 @@ export default defineComponent({
   ],
   props: {
     modelValue: {
-      type: Number,
+      type: Number as PropType<number>,
       default: 0,
     },
     position: {
-      type: Number,
+      type: Number as PropType<number>,
       default: 0,
     },
     activeItem: {
@@ -145,35 +147,35 @@ export default defineComponent({
     },
 
     useFlexBox: {
-      type: Boolean,
+      type: Boolean as PropType<boolean>,
       default: true,
     },
     scrollBehavior: {
-      type: String,
+      type: String as PropType<string>,
       default: "smooth",
     },
     scrollSnapType: {
-      type: String,
+      type: String as PropType<string>,
       default: "both mandatory",
     },
     animate: {
-      type: Boolean,
+      type: Boolean as PropType<boolean>,
       default: false,
     },
     hideScroll: {
-      type: Boolean,
+      type: Boolean as PropType<boolean>,
       default: true,
     },
     snap: {
-      type: Boolean,
+      type: Boolean as PropType<boolean>,
       default: false,
     },
     mouseDrag: {
-      type: Boolean,
+      type: Boolean as PropType<boolean>,
       default: false,
     },
   },
-  setup(props, context) {
+  setup(props, context: CarouselCompositionSetupContext) {
     const {
       modelValue,
       scrollBehavior,

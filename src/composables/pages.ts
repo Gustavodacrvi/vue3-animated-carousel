@@ -1,20 +1,21 @@
-import { computed, nextTick, Ref, SetupContext, watch } from 'vue'
+import { ClientSizeRef, ModelValuePropRef, PositionRef, ActivePageComputedRef, ScrollSizeRef, ScrollToMethod, NumberOfPagesComputedRef, GoToPageMethod, CarouselCompositionSetupContext } from '@/types'
+import { computed, nextTick, watch } from 'vue'
 
 export default ({
   modelValue, scrollTo,
   position,
   scrollSize, clientSize,
 }: {
-  scrollTo: ScrollerFunction;
-  modelValue: Ref<number>;
-  position: Ref<number>;
-  scrollSize: Ref<number>;
-  clientSize: Ref<number>;
-}, {emit}: SetupContext<any>) => {
-  const numberOfPages = computed(() => Math.ceil(scrollSize.value / clientSize.value))
-  const active = computed(() => Math.ceil(position.value / clientSize.value))
+  scrollTo: ScrollToMethod;
+  modelValue: ModelValuePropRef;
+  position: PositionRef;
+  scrollSize: ScrollSizeRef;
+  clientSize: ClientSizeRef;
+}, {emit}: CarouselCompositionSetupContext) => {
+  const numberOfPages = computed(() => Math.ceil(scrollSize.value / clientSize.value)) as NumberOfPagesComputedRef
+  const active = computed(() => Math.ceil(position.value / clientSize.value)) as ActivePageComputedRef
 
-  const goToPage = (val: number) => {
+  const goToPage = (val => {
     const number = numberOfPages.value
     let final = val
   
@@ -30,8 +31,9 @@ export default ({
       })
     }
     scrollTo({position: final * clientSize.value})
-  }
- 
+    return final
+  }) as GoToPageMethod
+
   watch(active, val => emit("update:modelValue", val), {flush: "post"})
   watch(modelValue, goToPage)
 

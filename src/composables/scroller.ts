@@ -1,15 +1,16 @@
 
-import { onMounted, Ref, ref, SetupContext, watch } from 'vue'
+import { CarouselCompositionSetupContext, CarouselNodeRef, IsHorizontalPropRef, RunOnScrollEndMethod, ScrollBehaviorPropRef, ScrollToMethod } from '@/types'
+import { onMounted, ref, watch } from 'vue'
 
 export default ({
   carousel,
   isHorizontal,
   scrollBehavior,
 }: {
-  carousel: Ref<HTMLElement>;
-  isHorizontal: Ref<boolean>;
-  scrollBehavior: Ref<string>;
-}, {emit}: SetupContext<any>) => {
+  carousel: CarouselNodeRef;
+  isHorizontal: IsHorizontalPropRef;
+  scrollBehavior: ScrollBehaviorPropRef;
+}, {emit}: CarouselCompositionSetupContext) => {
   
   const scrolling = ref(false)
   const isPressing = ref(false)
@@ -21,7 +22,7 @@ export default ({
     else emit("scroll-end")
   })
 
-  const scrollTo: ScrollerFunction = ({
+  const scrollTo: ScrollToMethod = ({
     position, behavior, force, 
   }) => {
     if (scrolling.value && !force) return;
@@ -71,7 +72,7 @@ export default ({
 
   return {
     scrollTo,
-    runOnScrollEnd: (func: () => void) => scrollEndActions.value.push(func)
+    runOnScrollEnd: (func => scrollEndActions.value.push(func)) as RunOnScrollEndMethod,
   }
   
 }

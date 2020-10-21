@@ -4,10 +4,3 @@ declare module '*.vue' {
   export default component
 }
 
-type ScrollerFunction = (options: {
-  position: number;
-  force?: boolean;
-  behavior?: string;
-}) => void
-
-type Rects = Array<{node: Element, rect: DOMRect}>

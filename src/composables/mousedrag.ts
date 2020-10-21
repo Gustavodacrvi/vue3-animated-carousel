@@ -1,4 +1,5 @@
-import { nextTick, onBeforeUnmount, onMounted, Ref, ref, SetupContext, watch } from 'vue'
+import { CarouselNodeRef, MouseDragPropRef, IsHorizontalPropRef, PositionRef, ScrollToMethod, IsDraggingRef, CarouselCompositionSetupContext } from '@/types'
+import { onMounted, ref, watch } from 'vue'
 
 export default ({
   isHorizontal,
@@ -7,13 +8,13 @@ export default ({
   carousel,
   position,
 }: {
-  isHorizontal: Ref<boolean>;
-  position: Ref<number>;
-  carousel: Ref<HTMLElement>;
-  scrollTo: ScrollerFunction;
-  mouseDrag: Ref<boolean>;
-}, {emit}: SetupContext<any>) => {
-  const isDragging = ref(false)
+  isHorizontal: IsHorizontalPropRef;
+  position: PositionRef;
+  carousel: CarouselNodeRef;
+  scrollTo: ScrollToMethod;
+  mouseDrag: MouseDragPropRef;
+}, {emit}: CarouselCompositionSetupContext) => {
+  const isDragging = ref(false) as IsDraggingRef
   const initialCursorPosition = ref(0)
   const initialCarouselPosition = ref(0)
 

@@ -1,12 +1,13 @@
 
-import { Ref, SetupContext, watch } from 'vue'
+import { PositionPropRef, ScrollToMethod } from '@/types'
+import { watch } from 'vue'
 
 export default ({
   propPosition,
   scrollTo,
 }: {
-  scrollTo: ScrollerFunction;
-  propPosition: Ref<number>;
+  scrollTo: ScrollToMethod;
+  propPosition: PositionPropRef;
 }) => {
   watch(propPosition, val => scrollTo({position: val}))
 }

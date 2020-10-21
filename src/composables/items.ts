@@ -1,4 +1,5 @@
-import { computed, nextTick, onMounted, ref, Ref, SetupContext, watch } from 'vue'
+import { ActiveItemIndexComputedRef, ActiveItemRef, ClientSizeRef, GetClosestItemAtTheCenterMethod, IsHorizontalPropRef, ItemsRef, MoveToItemAtIndex, MoveToItemMethod, NextItemMethod, PositionRef, PreviousItemMethod, ActiveItemIndexPropRef, ActiveItemPropRef, RectsRef, RunOnScrollEndMethod, SaveDomRectsMethod, FocusOnClickMethod, ScrollToMethod, CarouselCompositionSetupContext } from '@/types'
+import { computed, nextTick, onBeforeUpdate, onMounted, ref, watch } from 'vue'
 
 export default ({
   scrollTo,
@@ -12,24 +13,24 @@ export default ({
   runOnScrollEnd,
   propActiveItemIndex,
 }: {
-  scrollTo: ScrollerFunction;
-  runOnScrollEnd: (func: () => void) => void;
-  rects: Ref<Rects>;
-  propActiveItem: Ref<Element | HTMLElement>;
-  items: Ref<Element[]>;
-  saveDomRects: () => void;
-  isHorizontal: Ref<boolean>;
-  clientSize: Ref<number>;
-  propActiveItemIndex: Ref<number>;
-  position: Ref<number>;
-}, {emit}: SetupContext<any>) => {
-  const activeItem = ref(null as unknown as Element)
-  const activeItemIndex = computed(() => items.value.findIndex(item => item === activeItem.value))
+  scrollTo: ScrollToMethod;
+  runOnScrollEnd: RunOnScrollEndMethod;
+  rects: RectsRef;
+  propActiveItem: ActiveItemPropRef;
+  items: ItemsRef;
+  saveDomRects: SaveDomRectsMethod;
+  isHorizontal: IsHorizontalPropRef;
+  clientSize: ClientSizeRef;
+  propActiveItemIndex: ActiveItemIndexPropRef;
+  position: PositionRef;
+}, {emit}: CarouselCompositionSetupContext) => {
+  const activeItem = ref(null) as ActiveItemRef
+  const activeItemIndex = computed(() => items.value.findIndex(item => item === activeItem.value)) as ActiveItemIndexComputedRef
 
   watch(activeItemIndex, val => emit("update:activeItemIndex", val), {flush: "post"})
   watch(activeItem, val => emit("update:activeItem", val), {flush: "post"})
   
-  const moveToItem = (el: HTMLElement | Element | null) => {
+  const moveToItem = (el => {
     if (!el) return;
     const rect = el.getBoundingClientRect()
     const rectSize = isHorizontal.value ? rect.width : rect.height
@@ -38,7 +39,7 @@ export default ({
     scrollTo({
       position: position.value + ((offset + (rectSize / 2)) - (clientSize.value / 2))
     })
-  }
+  }) as MoveToItemMethod;
   const getClosestItemAtTheCenter = ((getRects = true) => {
     const getDistanceFromCenter = ({rect}: {rect: DOMRect}, halfSize: number) => {
       if (isHorizontal.value) return Math.abs(halfSize - (rect.x + (rect.width / 2)))
@@ -59,7 +60,7 @@ export default ({
     const item = (closestObj && closestObj.node)
     activeItem.value = item
     return item
-  }) as (getRects?: boolean) => Element;
+  }) as GetClosestItemAtTheCenterMethod;
   const jumpTargetItem = (toMove: number) => {
     const target = getClosestItemAtTheCenter()
     return items.value[
@@ -74,15 +75,21 @@ export default ({
     })
   }
 
+  onBeforeUpdate(() => {
+    saveDomRects()
+    getClosestItemAtTheCenter()
+  })
   onMounted(() => {
     saveDomRects()
     getClosestItemAtTheCenter()
     runOnScrollEnd(infiniteLoop)
   })
 
-  const moveToItemAtIndex = (childNodeIndex: number) => {
-    items.value[childNodeIndex] && moveToItem(items.value[childNodeIndex])
-  }
+  const moveToItemAtIndex = (childNodeIndex => {
+    const target = items.value[childNodeIndex]
+    target && moveToItem(target)
+    return target
+  }) as MoveToItemAtIndex
 
   watch(propActiveItem, moveToItem, {flush: "post"})
   watch(propActiveItemIndex, moveToItemAtIndex, {flush: "post"})
@@ -93,18 +100,20 @@ export default ({
     
     getClosestItemAtTheCenter,
     moveToItem,
-    nextItem: () => {
+    nextItem: (() => {
       const next = jumpTargetItem(1)
       next && moveToItem(next)
-    },
-    previousItem: () => {
+      return next
+    }) as NextItemMethod,
+    previousItem: (() => {
       const next = jumpTargetItem(-1)
       next && moveToItem(next)
-    },
+    }) as PreviousItemMethod,
     moveToItemAtIndex,
-    focusOnClick: (evt: PointerEvent) => {
-      evt.currentTarget && moveToItem(evt.currentTarget as Element)
-    },
-  } as any
+    focusOnClick: (evt => {
+      evt.currentTarget && moveToItem(evt.currentTarget)
+      return evt.currentTarget
+    }) as FocusOnClickMethod,
+  }
 
 }

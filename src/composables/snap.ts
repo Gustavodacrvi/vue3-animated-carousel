@@ -1,4 +1,5 @@
-import { nextTick, onBeforeUnmount, onMounted, ref, Ref, SetupContext, watch } from 'vue';
+import { CarouselCompositionSetupContext, CarouselNodeRef, GetClosestItemAtTheCenterMethod, IsSnappingRef, MoveToItemMethod, RunOnScrollEndMethod, SnapPropRef } from '@/types';
+import { nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue';
 
 export default ({
   getClosestItemAtTheCenter,
@@ -7,13 +8,13 @@ export default ({
   snap,
   carousel,
 }: {
-  carousel: Ref<HTMLElement>;
-  snap: Ref<boolean>;
-  getClosestItemAtTheCenter: (getRects?: boolean) => Element;
-  runOnScrollEnd: (func: () => any) => void;
-  moveToItem: (element: Element) => void;
-}, {emit}: SetupContext<any>) => {
-  const isSnapping = ref(false)
+  carousel: CarouselNodeRef;
+  snap: SnapPropRef;
+  getClosestItemAtTheCenter: GetClosestItemAtTheCenterMethod;
+  runOnScrollEnd: RunOnScrollEndMethod;
+  moveToItem: MoveToItemMethod;
+}, {emit}: CarouselCompositionSetupContext) => {
+  const isSnapping = ref(false) as IsSnappingRef
   const waitingForSnap = ref(false)
 
   watch(isSnapping, val => {

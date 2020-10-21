@@ -3,6 +3,7 @@
 
 ## TABLE OF CONTENTS
 * [Introduction](#introduction)
+* [Getting Started](#getting-started)
 * [v-models](#v-models)
 * [Props](#props)
 * [Methods and Slot Props](#methods-and-slot-props)
@@ -17,6 +18,17 @@
   * [Animations Example](#animation-example)
   * [Navigation And Slots Example](#navigation-and-slots-example)
 
+## Getting Started
+
+
+```
+  # npm
+  npm install vue3-carousel
+
+  # yarn
+  yarn add vue3-carousel
+```
+
 ## Introduction
 
 This module aims to provide the tools for creating carousels with Vue 3 Composition API, this module does not provide the animations, the CSS themes for the navigation, or the items themselves, since they highly depend on your implementation, it will be a good idea to wrap this component on your own component with your styles and use it throughout the site.
@@ -28,7 +40,7 @@ This module uses mostly modern solutions, if you need to support super old brows
 | Property      | Default | Type | Description          |
 | ------------- |:-------------:|:-------------:|:-------------|
 | modelValue      | 0 | number | Active page. The "active pages" are calculated by dividing the **scrollWidth/scrollHeight** by the **offsetWidth/offsetHeight**, it's useful for carousels that shows multiples items at time. See [Use Cases](#use-cases). |
-| activeItem      | null | Element | The closest item at the center of the page, changing this prop focuses on the given item. |
+| activeItem      | null | Element | null | The closest item at the center of the page, changing this prop focuses on the given item. |
 | activeItemIndex       | 0 | number | The index of the active item(childNode), changing this prop focuses on the item at the specified index. |
 | position       | 0 | number | Current scroll position, changing this prop updates the scroll position. Uses **scrollTop** when the **direction** is vertical and **scrollLeft** when it's horizontal.  |
 
@@ -172,6 +184,10 @@ If you won't use the animations, then you might as well just use the native impl
 ## Examples
 
 ### Animations Example
+
+* [Examples](#examples)
+  * [Animations Example](#animation-example)
+  * [Navigation And Slots Example](#navigation-and-slots-example)
 
 ![Animaton Example](https://raw.githubusercontent.com/Gustavodacrvi/vue3-carousel/images-bucket/images/animation-example.gif)
 

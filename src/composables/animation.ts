@@ -1,4 +1,7 @@
-import { computed, onBeforeUnmount, onBeforeUpdate, onMounted, Ref, SetupContext } from 'vue'
+
+import { CarouselNodeRef, GetClosestItemAtTheCenterMethod, SaveDomRectsMethod, ItemsRef, AnimatePropRef, ClientSizeRef, IsHorizontalPropRef, RectsRef, InterpolateMethod, AnimationValuesComputedRef, CarouselCompositionSetupContext } from '@/types'
+
+import { computed, onBeforeUnmount, onBeforeUpdate, onMounted } from 'vue'
 
 export default ({
   animate,
@@ -10,15 +13,16 @@ export default ({
   saveDomRects,
   getClosestItemAtTheCenter,
 }: {
-  getClosestItemAtTheCenter: (getRects?: boolean) => Element;
-  saveDomRects: () => void;
-  carousel: Ref<HTMLElement>;
-  animate: Ref<boolean>;
-  clientSize: Ref<number>;
-  isHorizontal: Ref<boolean>;
-  items: Ref<Element[]>;
-  rects: Ref<Rects>;
-}, {emit}: SetupContext<any>) => {
+  items: ItemsRef;
+  rects: RectsRef;
+  getClosestItemAtTheCenter: GetClosestItemAtTheCenterMethod;
+  saveDomRects: SaveDomRectsMethod;
+  carousel: CarouselNodeRef;
+  animate: AnimatePropRef;
+  clientSize: ClientSizeRef;
+  isHorizontal: IsHorizontalPropRef;
+
+}, {emit}: CarouselCompositionSetupContext) => {
   const emitEvent = (values: number[]): any => emit("animation-values", values.slice())
 
   let ticking = false
@@ -35,7 +39,6 @@ export default ({
     }
   }
 
-  
   onBeforeUpdate(getRects)
   onMounted(() => {
     getRects()
@@ -47,10 +50,10 @@ export default ({
   })
       
   return {
-    interpolate: (value: number | undefined, center: number, side: number) => {
+    interpolate: ((value, center, side) => {
       return -(((Math.abs(value || 0) - 1) * (center - side)) - side)
-    },
-    animationValues: computed(() => {
+    }) as InterpolateMethod,
+    animationValues: (computed(() => {
       if (!animate.value) {
         const values = items.value.map(rect => 0)
         emitEvent(values)
@@ -74,6 +77,6 @@ export default ({
       })
       emitEvent(values)
       return values
-    }),
+    })) as AnimationValuesComputedRef,
   }
 }
