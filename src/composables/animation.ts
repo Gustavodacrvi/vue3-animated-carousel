@@ -67,8 +67,8 @@ export default ({
       const values = rects.value.map(({rect}) => {
         const num = ((rect.x + (rect[sizeProperty] / 2)) / halfSize) - 1
         if (
-          rect.x + (rect[sizeProperty] + (rect[sizeProperty] / 2)) < 0 ||
-          (rect.x - (rect.x / 2)) > size
+          rect.x + (rect[sizeProperty] + rect[sizeProperty]) < 0 ||
+          (rect.x - rect.x) > size
         ) return 0
         return num
       })

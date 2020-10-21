@@ -1,4 +1,4 @@
-import { nextTick, onMounted, Ref, SetupContext } from 'vue'
+import { nextTick, onMounted, ref, Ref, SetupContext } from 'vue'
 
 export default ({
   scrollTo,
@@ -19,6 +19,8 @@ export default ({
   clientSize: Ref<number>;
   position: Ref<number>;
 }, {emit}: SetupContext<any>) => {
+  const activeItem = ref(null as unknown as Element)
+  
   const moveToItem = (el: HTMLElement | Element) => {
     const rect = el.getBoundingClientRect()
     const rectSize = isHorizontal.value ? rect.width : rect.height
@@ -28,7 +30,7 @@ export default ({
       position: position.value + ((offset + (rectSize / 2)) - (clientSize.value / 2))
     })
   }
-  const getClosestItemAtTheCenter = (getRects => {
+  const getClosestItemAtTheCenter = ((getRects = true) => {
     const getDistanceFromCenter = ({rect}: {rect: DOMRect}, halfSize: number) => {
       if (isHorizontal.value) return Math.abs(halfSize - (rect.x + (rect.width / 2)))
       return Math.abs(halfSize - (rect.y + (rect.height / 2)))
@@ -46,6 +48,7 @@ export default ({
         distances.findIndex(num => closestDistance === num)
       ]
     const item = (closestObj && closestObj.node)
+    activeItem.value = item
     emit("update:activeItem", item)
     return item
   }) as (getRects?: boolean) => Element;
@@ -64,11 +67,14 @@ export default ({
   }
 
   onMounted(() => {
+    saveDomRects()
     getClosestItemAtTheCenter()
     runOnScrollEnd(infiniteLoop)
   })
 
   return {
+    activeItem,
+    
     getClosestItemAtTheCenter,
     moveToItem,
     nextItem: () => {
@@ -85,6 +91,6 @@ export default ({
     focusOnClick: (evt: PointerEvent) => {
       evt.currentTarget && moveToItem(evt.currentTarget as Element)
     },
-  }
+  } as any
 
 }

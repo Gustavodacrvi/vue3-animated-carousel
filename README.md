@@ -14,7 +14,7 @@
 * [Use Cases](#use-cases)
 * ["scroll-snap-align" Animation Issue](#animation-issue)
 * [Examples](#examples)
- * [Animations](#examples)
+ * [Animations Example](#animation-example)
 
 ## Introduction
 
@@ -85,21 +85,21 @@ You can use the **before**, **after** slots to add the carousel navigation, and 
 | items | Element[] | Carousel items.
 | scrollSize | number | The size of the scroll, it's the **scrollLeft** for horizontal carousels and **scrollTop** for the vertical ones.
 | clientSize | number | The visible part carousel, it's the **offsetWidth** for horizontal carousels and **offsetHeight** for the vertical ones.
-| activeItem | Element | Closest element at the center of the viewport.
 | numberOfPages | number | Number of pages on the carousel.
-| numberOfItems | number | Number of items on the carousel.
-| rects | Array<{node: Element, rect: DOMRect}> | It's an array containing all the DOMRects of every single element on the list, this ref will only be updated once after scrolling when **animate** is false, see [Animations](#animations).
 | active | number | Active page index.
+| activeItem | Element | Closest element at the center of the viewport.
+| numberOfItems | number | Number of items on the carousel.
 | isDragging | boolean | Is true when the user is dragging the carousel using the mouse, will always be false when **mouseDrag** is false.
 | isSnapping | boolean | Is true when the carousel is snapping, will always be false when **snap** is false.
 | interpolate | (value: number or undefined, center: number, side: number) => number | Helper function to interpolate animation values. see [Animations](#animations).
+| rects | Array<{node: Element, rect: DOMRect}> | It's an array containing all the DOMRects of every single element on the list, this ref will only be updated once after scrolling when **animate** is false, see [Animations](#animations).
 | animationValues | number[] | Values used on the animations, will only be calculated once after scrolling when **animate** is false, see [Animations](#animations).
 
 ### Methods
 
 | Method | Type | Description |
 | ------------- |:-------------:|:-------------|
-| runOnScrollEnd | (func: () => void) => void | Run function on the next scroll end event. 
+| runOnScrollEnd | (func: () => void) => void | Run function on the next "scroll-end" event. 
 | saveDomRects | () => Array<{node: Element, rect: DOMRect}> | Calculates the data used for animation and returns it. 
 | scrollTo | ({position: number, behavior?: string, force?: boolean}) => void | Sets the scrollLeft/scrollTop of the carousel. 
 | nextItem | () => void | Focuses on the **next** sibling of the closest element at the center of the viewport. 
@@ -116,8 +116,8 @@ You can use the **before**, **after** slots to add the carousel navigation, and 
 | Event  | Type inferface | Description |
 | ------------- |:-------------:|:-------------|
 | number-of-pages | number | Returns the number of pages.
-| client-size | number | Returns the client size, is the offsetWidth on horizontal carousels and offsetHeight on vertical ones.
-| scroll-size | number | Returns the scroll size, is the scrollLeft on horizontal carousels and scrollTop on vertical ones.
+| client-size | number | Returns the client size, it's the offsetWidth on horizontal carousels and offsetHeight on vertical ones.
+| scroll-size | number | Returns the scroll size, it's the scrollLeft on horizontal carousels and scrollTop on vertical ones.
 | rects | Array<{node: Element, rect: DOMRect}> | Returns an array containing all the DOMRects of every single element on the list, this ref will only be updated once after scrolling when **animate** is false, see [Animations](#animations).
 | items | Element[] | Returns the carousel items.
 | animation-values | number[] | Values used for animation, will only be calculated once after scrolling when **animate** is false, see [Animations](#animations).
@@ -134,10 +134,9 @@ By setting the **animate** prop to true, you will be able to use the **animation
 
 The list will update on the scroll event and will use **getBoundingClientRect** with **requestAnimationFrame** for EVERY single element of the list, which means your list will update A LOT, so don't forget to always use "transforms, opacity" and other properties that only cause a **repaint**, and to set the **will-change** CSS property to get a smooth effect. Also, the highest the number of childNodes, the less performant it will be, so be mindful when using these animations.
 
-You can create your own interpolation, you simply pass the animationValue and the desired numbers on the edges and on the center.
+This module provides the **interpolate** function to make your life easier, but you can still create your own interpolations.
 
-See [Animation Example](#animation-example)
-
+See [Animations Example](#animation-example).
 
 ## Use Cases
 
@@ -147,7 +146,20 @@ On some carousels, especially on desktop ones, you might want to show multiples 
 
 ![Google Chrome Examples](https://raw.githubusercontent.com/Gustavodacrvi/vue3-carousel/main/images/google-chrome-carousel.gif)
 
-In this use case, you'll want to use the page related methods/refs, "modelValue", "nextPage", "previousPage", "numberOfPages", "moveToPage", you can still use all the other methods though.
+In this use case, you'll want to use the page related methods/refs: "modelValue", "nextPage", "previousPage", "numberOfPages", "moveToPage". You can still use all the other methods though.
+
+### One Item At a Time/Item At The Center
+
+Common on mobile devices and on image carousels, here you just want to show one item at a time or centralize the main item, this means the number of "pages" will **might not** be equal to the number of items. Those items many times have margins and paddings, which may cause the numberOfPages to be different than the actual number of items, if that happens, the carousel will simply not look good, if the image width/height is the same as the carousel offsetWidth/offsetHeight, you probably don't have to worry about this.
+
+![One Item Carousel](https://raw.githubusercontent.com/Gustavodacrvi/vue3-carousel/main/images/images-carousel.gif)
+
+To prevent these problems, always use the item related methods/refs on these situations: "activeItem"(v-model), "nextItem", "previousItem", "moveToItem", "moveToItemAtIndex", "focusOnClick". Those methods will go to the items themselves instead of calculating the page using using scrollSize(scrollWidth/scrollHeight) and clientSize(offsetWidth/offsetHeight).
+
+### Responsive Carousel
+
+Sometimes you want to show multiple items on desktop and one item at a time on smaller devices, you can then use the scrollSize and change the event handles. See example.
+
 
 ## "scroll-snap-align" Animation Issue
 
@@ -157,4 +169,105 @@ If you won't use the animations, then you might as well just use the native impl
 
 ## Examples
 
+### Animations Example
+
+![Animaton Example](https://raw.githubusercontent.com/Gustavodacrvi/vue3-carousel/main/images/animation-example.gif)
+
+```
+<template>
+  <Carousel class="Carousel"
+    :snap="true"
+    :animate="true"
+  
+    v-slot="{
+      animationValues,
+      interpolate,
+      activeItem,
+    }"
+  >
+    <div v-for="(img, i) in images"
+      :key="img.title"
+      class="image"
+      :class="{active: activeItem && activeItem.dataset.imgtitle === img.title}"
+
+      :data-imgtitle="img.title"
+
+      :style="{
+        transform: `scale(${
+          interpolate(animationValues[i], 1, .5)
+        })`
+      }"
+    >
+      <img
+        width="250px"
+        height="250px"
+        :src="img.src"
+        :alt="img.title"
+      >
+      <h6>{{ img.title }}</h6>
+    </div>
+  </Carousel>
+</template>
+
+....
+
+<style>
+
+.image {
+  position: relative;
+  margin: 50px 1px;
+  width: 250px;
+  height: 250px;
+  border-radius: 50000px;
+  overflow: hidden;
+  will-change: transform;
+}
+
+.image:first-child {
+  margin-left: 175px;
+}
+
+.image:last-child {
+  margin-left: 175px;
+}
+
+img, h6 {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+img {
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  filter: brightness(1);
+}
+
+h6 {
+  margin: auto;
+  transition-duration: .2s;
+  opacity: 0;
+  white-space: nowrap;
+  font-family: Roboto;
+  font-size: 20px;
+  color: white;
+}
+
+.active h6 {
+  opacity: 1;
+}
+
+.active img {
+  filter: brightness(.5);
+}
+
+.image + .image {
+  margin-left: 15px;
+}
+
+</style>
+
+```
 

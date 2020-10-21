@@ -1,12 +1,11 @@
 <template>
   <slot name="before"></slot>
   <div v-bind="$attrs"
-    class="carousel"
+    class="Carousel"
     ref="carousel"
-    :class="{useFlexBox, scrollBehavior}"
+    :class="{useFlexBox, scrollBehavior, hideScroll}"
     :style="{
       scrollBehavior: isDragging ? '' : scrollBehavior,
-      hideScroll,
       scrollSnapType,
     }"
   >
@@ -116,7 +115,7 @@ export default defineComponent({
     },
     mouseDrag: {
       type: Boolean,
-      default: true,
+      default: false,
     },
   },
   setup(props, context) {
@@ -124,7 +123,6 @@ export default defineComponent({
       modelValue,
       scrollBehavior,
       position: propPosition,
-      activeItem,
       snap,
       mouseDrag,
       animate,
@@ -154,6 +152,8 @@ export default defineComponent({
     positionFeature({propPosition, scrollTo})
 
     const {
+      activeItem,
+      
       moveToItem,
       nextItem,
       previousItem,
@@ -224,19 +224,23 @@ export default defineComponent({
 
 </script>
 
+<style>
+
+.Carousel.useFlexBox > div {
+  flex: 0 0 auto;
+}
+
+</style>
+
 <style scoped>
 
-.carousel {
+.Carousel {
   overflow: auto;
 }
 
-.useFlexBox {
+.Carousel.useFlexBox {
   display: flex;
   flex-wrap: nowrap;
-}
-
-.useFlexBox > * {
-  flex: 0 0 auto;
 }
 
 .smooth {
