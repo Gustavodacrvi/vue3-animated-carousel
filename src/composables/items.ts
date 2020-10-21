@@ -1,4 +1,4 @@
-import { nextTick, onMounted, ref, Ref, SetupContext } from 'vue'
+import { computed, nextTick, onMounted, ref, Ref, SetupContext, watch } from 'vue'
 
 export default ({
   scrollTo,
@@ -6,22 +6,31 @@ export default ({
   clientSize,
   position,
   saveDomRects,
+  propActiveItem,
   rects,
   items,
   runOnScrollEnd,
+  propActiveItemIndex,
 }: {
   scrollTo: ScrollerFunction;
   runOnScrollEnd: (func: () => void) => void;
   rects: Ref<Rects>;
+  propActiveItem: Ref<Element | HTMLElement>;
   items: Ref<Element[]>;
   saveDomRects: () => void;
   isHorizontal: Ref<boolean>;
   clientSize: Ref<number>;
+  propActiveItemIndex: Ref<number>;
   position: Ref<number>;
 }, {emit}: SetupContext<any>) => {
   const activeItem = ref(null as unknown as Element)
+  const activeItemIndex = computed(() => items.value.findIndex(item => item === activeItem.value))
+
+  watch(activeItemIndex, val => emit("update:activeItemIndex", val), {flush: "post"})
+  watch(activeItem, val => emit("update:activeItem", val), {flush: "post"})
   
-  const moveToItem = (el: HTMLElement | Element) => {
+  const moveToItem = (el: HTMLElement | Element | null) => {
+    if (!el) return;
     const rect = el.getBoundingClientRect()
     const rectSize = isHorizontal.value ? rect.width : rect.height
     const offset = isHorizontal.value ? rect.x : rect.y
@@ -49,7 +58,6 @@ export default ({
       ]
     const item = (closestObj && closestObj.node)
     activeItem.value = item
-    emit("update:activeItem", item)
     return item
   }) as (getRects?: boolean) => Element;
   const jumpTargetItem = (toMove: number) => {
@@ -72,8 +80,16 @@ export default ({
     runOnScrollEnd(infiniteLoop)
   })
 
+  const moveToItemAtIndex = (childNodeIndex: number) => {
+    items.value[childNodeIndex] && moveToItem(items.value[childNodeIndex])
+  }
+
+  watch(propActiveItem, moveToItem, {flush: "post"})
+  watch(propActiveItemIndex, moveToItemAtIndex, {flush: "post"})
+
   return {
     activeItem,
+    activeItemIndex,
     
     getClosestItemAtTheCenter,
     moveToItem,
@@ -85,9 +101,7 @@ export default ({
       const next = jumpTargetItem(-1)
       next && moveToItem(next)
     },
-    moveToItemAtIndex: (childNodeIndex: number) => {
-      items.value[childNodeIndex] && moveToItem(items.value[childNodeIndex])
-    },
+    moveToItemAtIndex,
     focusOnClick: (evt: PointerEvent) => {
       evt.currentTarget && moveToItem(evt.currentTarget as Element)
     },

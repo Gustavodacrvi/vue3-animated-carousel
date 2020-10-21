@@ -14,7 +14,8 @@
 * [Use Cases](#use-cases)
 * ["scroll-snap-align" Animation Issue](#animation-issue)
 * [Examples](#examples)
- * [Animations Example](#animation-example)
+  * [Animations Example](#animation-example)
+  * [Navigation And Slots Example](#navigation-and-slots-example)
 
 ## Introduction
 
@@ -24,11 +25,12 @@ This module uses mostly modern solutions, if you need to support super old brows
 
 ## v-models
 
-| Property      | Default | Description          |
-| ------------- |:-------------:|:-------------|
-| modelValue      | 0 | Active page. The "active pages" are calculated by dividing the **scrollWidth/scrollHeight** by the **offsetWidth/offsetHeight**, it's useful for carousels that shows multiples items at time. See [Use Cases](#use-cases). |
-| activeItem      | null | The closest item at the center of the page, changing this prop focuses on the given item. |
-| position       | 0 | Current scroll position, changing this prop updates the scroll position. Uses **scrollTop** when the **direction** is vertical and **scrollLeft** when it's horizontal.  |
+| Property      | Default | Type | Description          |
+| ------------- |:-------------:|:-------------:|:-------------|
+| modelValue      | 0 | number | Active page. The "active pages" are calculated by dividing the **scrollWidth/scrollHeight** by the **offsetWidth/offsetHeight**, it's useful for carousels that shows multiples items at time. See [Use Cases](#use-cases). |
+| activeItem      | null | Element | The closest item at the center of the page, changing this prop focuses on the given item. |
+| activeItemIndex       | 0 | number | The index of the active item(childNode), changing this prop focuses on the item at the specified index. |
+| position       | 0 | number | Current scroll position, changing this prop updates the scroll position. Uses **scrollTop** when the **direction** is vertical and **scrollLeft** when it's horizontal.  |
 
 
 ## Props
@@ -88,7 +90,7 @@ You can use the **before**, **after** slots to add the carousel navigation, and 
 | numberOfPages | number | Number of pages on the carousel.
 | active | number | Active page index.
 | activeItem | Element | Closest element at the center of the viewport.
-| numberOfItems | number | Number of items on the carousel.
+| activeItemIndex | Element | The index of the active item(childNode).
 | isDragging | boolean | Is true when the user is dragging the carousel using the mouse, will always be false when **mouseDrag** is false.
 | isSnapping | boolean | Is true when the carousel is snapping, will always be false when **snap** is false.
 | interpolate | (value: number or undefined, center: number, side: number) => number | Helper function to interpolate animation values. see [Animations](#animations).
@@ -142,19 +144,19 @@ See [Animations Example](#animation-example).
 
 ### Multiple Items At Once
 
-On some carousels, especially on desktop ones, you might want to show multiples items at once, on those situations, the carousel "pages" aren't dependent on the items themselves but on the available size and on the scroll size, for example, a horizontal carousel with an 2400px of scroll width and with an available width of 800px will be divided into 3 "pages", going to the second page sets the scrollWith to 1600px. Examples:
+On some carousels, especially on desktop ones, you might want to show multiples items at once, on those situations, the carousel "pages" aren't dependent on the items themselves but on the available size and on the scroll size, for example, a horizontal carousel with a 2400px of scroll width and with an available width of 800px will be divided into 3 "pages", going to the second page sets the scrollWidth to 1600px. Examples:
 
-![Google Chrome Examples](https://raw.githubusercontent.com/Gustavodacrvi/vue3-carousel/main/images/google-chrome-carousel.gif)
+![Google Chrome Examples](https://raw.githubusercontent.com/Gustavodacrvi/vue3-carousel/images-bucket/images/google-chrome-carousel.gif)
 
 In this use case, you'll want to use the page related methods/refs: "modelValue", "nextPage", "previousPage", "numberOfPages", "moveToPage". You can still use all the other methods though.
 
 ### One Item At a Time/Item At The Center
 
-Common on mobile devices and on image carousels, here you just want to show one item at a time or centralize the main item, this means the number of "pages" will **might not** be equal to the number of items. Those items many times have margins and paddings, which may cause the numberOfPages to be different than the actual number of items, if that happens, the carousel will simply not look good, if the image width/height is the same as the carousel offsetWidth/offsetHeight, you probably don't have to worry about this.
+Common on mobile devices and on image carousels, here you just want to show one item at a time or centralize the images-bucket item, this means the number of "pages" **might not** be equal to the number of items. Those items many times have margins and paddings, which may cause the numberOfPages to be different than the actual number of items, if that happens, the "page" like behavior carousel will simply not look good, if the image width/height is the same as the carousel offsetWidth/offsetHeight, you probably don't have to worry about this.
 
-![One Item Carousel](https://raw.githubusercontent.com/Gustavodacrvi/vue3-carousel/main/images/images-carousel.gif)
+![One Item Carousel](https://raw.githubusercontent.com/Gustavodacrvi/vue3-carousel/images-bucket/images/images-carousel.gif)
 
-To prevent these problems, always use the item related methods/refs on these situations: "activeItem"(v-model), "nextItem", "previousItem", "moveToItem", "moveToItemAtIndex", "focusOnClick". Those methods will go to the items themselves instead of calculating the page using using scrollSize(scrollWidth/scrollHeight) and clientSize(offsetWidth/offsetHeight).
+To prevent these problems, always use the item related methods/refs on these situations: "activeItem"(v-model), "nextItem", "items", "previousItem", "moveToItem", "moveToItemAtIndex", "focusOnClick". Those methods will go to the items themselves instead of calculating the page using using scrollSize(scrollWidth/scrollHeight) and clientSize(offsetWidth/offsetHeight).
 
 ### Responsive Carousel
 
@@ -171,7 +173,7 @@ If you won't use the animations, then you might as well just use the native impl
 
 ### Animations Example
 
-![Animaton Example](https://raw.githubusercontent.com/Gustavodacrvi/vue3-carousel/main/images/animation-example.gif)
+![Animaton Example](https://raw.githubusercontent.com/Gustavodacrvi/vue3-carousel/images-bucket/images/animation-example.gif)
 
 ```
 <template>
@@ -186,7 +188,6 @@ If you won't use the animations, then you might as well just use the native impl
     }"
   >
     <div v-for="(img, i) in images"
-      :key="img.title"
       class="image"
       :class="{active: activeItem && activeItem.dataset.imgtitle === img.title}"
 
@@ -228,7 +229,7 @@ If you won't use the animations, then you might as well just use the native impl
 }
 
 .image:last-child {
-  margin-left: 175px;
+  margin-right: 175px;
 }
 
 img, h6 {
@@ -271,3 +272,121 @@ h6 {
 
 ```
 
+### Navigation And Slots Example
+
+![Animaton Example](https://raw.githubusercontent.com/Gustavodacrvi/vue3-carousel/images-bucket/images/navigation-example.gif)
+
+```
+  <div class="carousel">
+    <Carousel>
+      <template v-slot:default>
+        <div v-for="img in images"
+          :key="img.title"
+          class="item"
+        >
+          <img :src="img.src" :alt="img.title">
+        </div>
+      </template>
+
+      <template v-slot:after="{activeItemIndex, moveToItemAtIndex, items, nextItem, previousItem}">
+        <span class="dot left" @click="previousItem">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+          </svg>
+        </span>
+        <span class="dot right" @click="nextItem">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+        </svg>
+        </span>
+        
+        <span class="dot-wrapper">
+          <span v-for="num in items.length"
+            class="dot"
+            :class="{active: activeItemIndex === (num - 1)}"
+            :key="num"
+
+            @click="moveToItemAtIndex(num - 1)"
+          >{{ num }}</span>
+        </span>
+      </template>
+    </Carousel>
+  </div>
+```
+
+```
+  <style scoped>
+
+  body {
+    font-family: Roboto;
+  }
+
+  .carousel {
+    position: relative;
+  }
+
+  .dot-wrapper {
+    z-index: 2;
+    position: absolute;
+    bottom: 30px;
+    width: 100%;
+    pointer-events: none;
+    display: flex;
+  }
+
+  .dot, .dot-wrapper {
+    justify-content: center;
+    align-items: center;
+  }
+
+  .dot {
+    pointer-events: all;
+    color: white;
+    border-radius: 10000px;
+    background-color: rgba(0,0,0,.3);
+    border: 2px solid white;
+    width: 30px;
+    font-size: 16px;
+    height: 30px;
+    font-family: Roboto;
+    display: inline-flex;
+    transition-duration: .15s;
+  }
+
+  .left, .right {
+    position: absolute;
+    display: block;
+    top: 50%;
+    left: 8px;
+    transform: translateY(-50%);
+  }
+
+  .right {
+    left: unset;
+    right: 8px;
+  }
+
+  .dot:active, .active {
+    background-color: white;
+    color: black;
+  }
+
+  .dot + .dot {
+    margin-left: 10px;
+  }
+
+  .item {
+    position: relative;
+    height: 400px;
+    width: 100vw;
+    scroll-snap-align: center;
+  }
+
+  img {
+    width: 100%;
+    object-fit: cover;
+    height: 100%;
+  }
+
+  </style>
+```

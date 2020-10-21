@@ -27,7 +27,7 @@ export default ({
     if (!ticking) {
       requestAnimationFrame(() => {
         saveDomRects()
-        emit("update:activeItem", getClosestItemAtTheCenter(false))
+        getClosestItemAtTheCenter(false)
         ticking = false
       })
 

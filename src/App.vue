@@ -29,38 +29,41 @@
 <!--   Rects: {{ rects }}
   Animation values: {{ animationValues }} -->
 
-  <Carousel class="Carousel"
-    :snap="true"
-    :animate="true"
-  
-    v-slot="{
-      animationValues,
-      interpolate,
-      activeItem,
-    }"
-  >
-    <div v-for="(img, i) in images"
-      :key="img.title"
-      class="image"
-      :class="{active: activeItem && activeItem.dataset.imgtitle === img.title}"
+  <div class="carousel">
+    <Carousel>
+      <template v-slot:default>
+        <div v-for="img in images"
+          :key="img.title"
+          class="item"
+        >
+          <img :src="img.src" :alt="img.title">
+        </div>
+      </template>
 
-      :data-imgtitle="img.title"
+      <template v-slot:after="{activeItemIndex, moveToItemAtIndex, items, nextItem, previousItem}">
+        <span class="dot left" @click="previousItem">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+          </svg>
+        </span>
+        <span class="dot right" @click="nextItem">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+        </svg>
+        </span>
+        
+        <span class="dot-wrapper">
+          <span v-for="num in items.length"
+            class="dot"
+            :class="{active: activeItemIndex === (num - 1)}"
+            :key="num"
 
-      :style="{
-        transform: `scale(${
-          interpolate(animationValues[i], 1, .5)
-        })`
-      }"
-    >
-      <img
-        width="250px"
-        height="250px"
-        :src="img.src"
-        :alt="img.title"
-      >
-      <h6>{{ img.title }}</h6>
-    </div>
-  </Carousel>
+            @click="moveToItemAtIndex(num - 1)"
+          >{{ num }}</span>
+        </span>
+      </template>
+    </Carousel>
+  </div>
 </template>
 
 <script lang="ts">
@@ -70,6 +73,7 @@ import { defineComponent } from 'vue'
 import Carousel from "./Carousel.vue"
 
 export default defineComponent({
+  inheritAttrs: false,
   name: 'App',
   components: {
     Carousel,
@@ -248,98 +252,75 @@ body {
 <style scoped>
 
 
-.image {
+body {
+  font-family: Roboto;
+}
+
+.carousel {
   position: relative;
-  margin: 50px 1px;
-  width: 250px;
-  height: 250px;
-  border-radius: 50000px;
-  overflow: hidden;
-  will-change: transform;
 }
 
-.image:first-child {
-  margin-left: 175px;
-}
-
-.image:last-child {
-  margin-left: 175px;
-}
-
-img, h6 {
+.dot-wrapper {
+  z-index: 2;
   position: absolute;
-  left: 50%;
+  bottom: 30px;
+  width: 100%;
+  pointer-events: none;
+  display: flex;
+}
+
+.dot, .dot-wrapper {
+  justify-content: center;
+  align-items: center;
+}
+
+.dot {
+  pointer-events: all;
+  color: white;
+  border-radius: 10000px;
+  background-color: rgba(0,0,0,.3);
+  border: 2px solid white;
+  width: 30px;
+  font-size: 16px;
+  height: 30px;
+  font-family: Roboto;
+  display: inline-flex;
+  transition-duration: .15s;
+}
+
+.left, .right {
+  position: absolute;
+  display: block;
   top: 50%;
-  transform: translate(-50%, -50%);
+  left: 8px;
+  transform: translateY(-50%);
+}
+
+.right {
+  left: unset;
+  right: 8px;
+}
+
+.dot:active, .active {
+  background-color: white;
+  color: black;
+}
+
+.dot + .dot {
+  margin-left: 10px;
+}
+
+.item {
+  position: relative;
+  height: 400px;
+  width: 100vw;
+  scroll-snap-align: center;
 }
 
 img {
   width: 100%;
+  object-fit: cover;
   height: 100%;
-  z-index: -1;
-  filter: brightness(1);
-}
-
-h6 {
-  margin: auto;
-  transition-duration: .2s;
-  opacity: 0;
-  white-space: nowrap;
-  font-family: Roboto;
-  font-size: 20px;
-  color: white;
-}
-
-.active h6 {
-  opacity: 1;
-}
-
-.active img {
-  filter: brightness(.5);
-}
-
-.image + .image {
-  margin-left: 15px;
-}
-
-
-
-
-.Carousel {
-  margin-top: 1000px;
-}
-
-.item {
-  width: 250px;
-  flex-shrink: 0;
-  border-radius: 8px;
-  padding: 12px;
-  user-select: none;
-  margin: 10px;
-  border: 2px solid lightgray;
-  will-change: transform;
-}
-
-.item:first-child {
-  margin-left: 20px;
-}
-
-.item:last-child {
-  margin-right: 100px;
-}
-
-.vertical {
-  height: 700px;
-  flex-direction: column;
-}
-
-.vertical .item {
-  max-height: 200px;
-  overflow: hidden;
-}
-
-h3 {
-  margin: 0;
 }
 
 </style>

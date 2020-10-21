@@ -1,6 +1,30 @@
 <template>
-  <slot name="before"></slot>
-  <div v-bind="$attrs"
+  <slot name="before"
+    :carousel="carousel"
+    :activeItem="activeItem"
+    :activeItemIndex="activeItemIndex"
+    :position="position"
+    :scrollSize="scrollSize"
+    :clientSize="clientSize"
+    :rects="rects"
+    :items="items"
+    :saveDomRects="saveDomRects"
+    :active="active"
+    :numberOfPages="numberOfPages"
+    :scrollTo="scrollTo"
+    :runOnScrollEnd="runOnScrollEnd"
+    :moveToItem="moveToItem"
+    :nextItem="nextItem"
+    :previousItem="previousItem"
+    :getClosestItemAtTheCenter="getClosestItemAtTheCenter"
+    :focusOnClick="focusOnClick"
+    :moveToItemAtIndex="moveToItemAtIndex"
+    :animationValues="animationValues"
+    :interpolate="interpolate"
+    :isSnapping="isSnapping"
+    :isDragging="isDragging"
+  ></slot>
+  <div
     class="Carousel"
     ref="carousel"
     :class="{useFlexBox, scrollBehavior, hideScroll}"
@@ -8,10 +32,12 @@
       scrollBehavior: isDragging ? '' : scrollBehavior,
       scrollSnapType,
     }"
+    v-bind="$attrs"
   >
     <slot
       :carousel="carousel"
       :activeItem="activeItem"
+      :activeItemIndex="activeItemIndex"
       :position="position"
       :scrollSize="scrollSize"
       :clientSize="clientSize"
@@ -34,7 +60,31 @@
       :isDragging="isDragging"
     ></slot>
   </div>
-  <slot name="after"></slot>
+  <slot name="after"
+    :carousel="carousel"
+    :activeItem="activeItem"
+    :activeItemIndex="activeItemIndex"
+    :position="position"
+    :scrollSize="scrollSize"
+    :clientSize="clientSize"
+    :rects="rects"
+    :items="items"
+    :saveDomRects="saveDomRects"
+    :active="active"
+    :numberOfPages="numberOfPages"
+    :scrollTo="scrollTo"
+    :runOnScrollEnd="runOnScrollEnd"
+    :moveToItem="moveToItem"
+    :nextItem="nextItem"
+    :previousItem="previousItem"
+    :getClosestItemAtTheCenter="getClosestItemAtTheCenter"
+    :focusOnClick="focusOnClick"
+    :moveToItemAtIndex="moveToItemAtIndex"
+    :animationValues="animationValues"
+    :interpolate="interpolate"
+    :isSnapping="isSnapping"
+    :isDragging="isDragging"
+  ></slot>
 </template>
 
 <script lang="ts">
@@ -69,6 +119,7 @@ export default defineComponent({
 
     "update:modelValue",
     "update:activeItem",
+    "update:activeItemIndex",
     "update:position",
   ],
   props: {
@@ -83,6 +134,10 @@ export default defineComponent({
     activeItem: {
       type: Object as PropType<Element>,
       default: null,
+    },
+    activeItemIndex: {
+      type: Object as PropType<number>,
+      default: 0,
     },
     direction: {
       type: String as PropType<"horizontal" | "vertical">,
@@ -123,6 +178,8 @@ export default defineComponent({
       modelValue,
       scrollBehavior,
       position: propPosition,
+      activeItem: propActiveItem,
+      activeItemIndex: propActiveItemIndex,
       snap,
       mouseDrag,
       animate,
@@ -153,6 +210,7 @@ export default defineComponent({
 
     const {
       activeItem,
+      activeItemIndex,
       
       moveToItem,
       nextItem,
@@ -162,7 +220,7 @@ export default defineComponent({
       getClosestItemAtTheCenter,
     } = itemsFeature({
       scrollTo, position, rects, saveDomRects, isHorizontal,
-      clientSize, items, runOnScrollEnd,
+      clientSize, items, runOnScrollEnd, propActiveItem, propActiveItemIndex,
     }, context)
 
     const {
@@ -191,6 +249,7 @@ export default defineComponent({
     return {
       carousel,
       activeItem,
+      activeItemIndex,
 
       position,
       scrollSize,
