@@ -208,7 +208,7 @@ export default defineComponent({
       scrollTo, position, scrollSize,
     }, context)
 
-    positionFeature({propPosition, scrollTo})
+    positionFeature({propPosition, scrollTo, initialSnap})
 
     const {
       activeItem,

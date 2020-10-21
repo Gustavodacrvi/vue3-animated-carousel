@@ -2,10 +2,10 @@
 <template>
 
   <Carousel class="Carousel"
-    v-model:activeItemIndex="active"
     :snap="true"
-    :animate="true"
-  
+
+    v-model:activeItem="item"
+
     v-slot="{
       animationValues,
       interpolate,
@@ -23,6 +23,7 @@
           interpolate(animationValues[i], 1, .5)
         })`
       }"
+
     >
       <img
         width="250px"
@@ -47,8 +48,6 @@ export default defineComponent({
   },
   data() {
     return {
-      active: 2,
-      
       images: [
         {
           src: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80",
@@ -81,6 +80,13 @@ export default defineComponent({
       ],
     }
   },
+  methods: {
+    tryItOut(evt: any) {
+    },
+    debug(el: any) {
+      console.log(el)
+    },
+  },
 });
 </script>
 
@@ -93,7 +99,6 @@ export default defineComponent({
   height: 250px;
   border-radius: 50000px;
   overflow: hidden;
-  will-change: transform;
 }
 
 .image:first-child {
@@ -115,6 +120,8 @@ img {
   width: 100%;
   height: 100%;
   z-index: -1;
+  pointer-events: none;
+  user-select: none;
   filter: brightness(1);
 }
 

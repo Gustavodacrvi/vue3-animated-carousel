@@ -1,5 +1,5 @@
 import { ActiveItemIndexComputedRef, ActiveItemRef, ClientSizeRef, GetClosestItemAtTheCenterMethod, IsHorizontalPropRef, ItemsRef, MoveToItemAtIndex, MoveToItemMethod, NextItemMethod, PositionRef, PreviousItemMethod, ActiveItemIndexPropRef, ActiveItemPropRef, RectsRef, RunOnScrollEndMethod, SaveDomRectsMethod, FocusOnClickMethod, ScrollToMethod, CarouselCompositionSetupContext, InitialSnapRef } from "vue3-carousel"
-import { computed, nextTick, onBeforeUpdate, onMounted, ref, watch } from 'vue'
+import { computed, nextTick, onMounted, ref, watch } from 'vue'
 
 export default ({
   scrollTo,
@@ -74,27 +74,23 @@ export default ({
     })
   }
 
-  onBeforeUpdate(() => {
-    saveDomRects()
-    getClosestItemAtTheCenter()
-  })
+  const moveToItemAtIndex = (childNodeIndex => {
+    const target = items.value[childNodeIndex]
+    target && moveToItem(target)
+    return target
+  }) as MoveToItemAtIndex
+
   onMounted(() => {
     if (initialSnap.value === "item") {
       moveToItem(propActiveItem.value)
     } else if (initialSnap.value === "itemIndex") {
-      moveToItemAtIndex(propActiveItemIndex.value)
+      return moveToItemAtIndex(propActiveItemIndex.value)
     }
     
     saveDomRects()
     getClosestItemAtTheCenter()
     runOnScrollEnd(infiniteLoop)
   })
-
-  const moveToItemAtIndex = (childNodeIndex => {
-    const target = items.value[childNodeIndex]
-    target && moveToItem(target)
-    return target
-  }) as MoveToItemAtIndex
 
   watch(activeItemIndex, val => emit("update:activeItemIndex", val), {flush: "post"})
   watch(activeItem, val => emit("update:activeItem", val), {flush: "post"})

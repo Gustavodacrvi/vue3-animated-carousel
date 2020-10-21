@@ -1,4 +1,4 @@
-import { onMounted, ref } from 'vue';
+import { ref } from 'vue';
 import { ActiveItemIndexPropRef, ActiveItemRef, InitialSnapRef, ModelValuePropRef, PositionPropRef } from 'vue3-carousel';
 
 export default ({
@@ -12,12 +12,10 @@ export default ({
 }) => {
   const initialSnap = ref(null) as InitialSnapRef
 
-  onMounted(() => {
-    if (modelValue.value !== 0) return initialSnap.value = "page"
-    if (propActiveItemIndex.value !== 0) return initialSnap.value = "itemIndex"
-    if (propPosition.value !== 0) return initialSnap.value = "position"
-    if (propActiveItem.value !== null) return initialSnap.value = "item"
-  })
+  if (modelValue.value !== 0) initialSnap.value = "page"
+  else if (propActiveItemIndex.value !== 0) initialSnap.value = "itemIndex"
+  else if (propPosition.value !== 0) initialSnap.value = "position"
+  else if (propActiveItem.value !== null) initialSnap.value = "item"
 
   return {initialSnap}
 }
