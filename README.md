@@ -41,12 +41,37 @@ This module uses mostly modern solutions, if you need to support super old brows
 | animate   | false | boolean | Enables animation, this can cause performance issues if not used properly, see [Animations](#animations). |
 | hideScroll   | true | boolean | Hide carousel scroll. |
 | snap | false | boolean | Enables javascript scroll snapping, the native **scroll-snap-align** CSS currently doesn't work well with **animate**, on those situations you'll want to use this prop. see ["scroll-snap-align" Animation Issue](#animation-issue). |
-| scrollSnapType | "both mandatory" | [scroll-snap-type](https://developer.mozilla.org/en-US/docs/Web/CSS/scroll-snap-type) | Behavior of the **scroll-snap-type** css property. |
-| mouseDrag | false | boolean | Enables the user to move the carousel using mouse. |
+| scrollSnapType | "both mandatory" | [scroll-snap-type](https://developer.mozilla.org/en-US/docs/Web/CSS/scroll-snap-type) | Behavior of the **scroll-snap-type** CSS property. |
+| mouseDrag | false | boolean | Enables the user to move the carousel using the mouse. |
 
 ## Methods and Slot Props
 
-You can access **all** of the methods/refs below using a component ref or using slot props. See [Examples](#examples)
+You can access **all** of the methods/refs below using a component ref or using slot props. See [Examples](#examples).
+
+```
+  <Carousel v-slot="{nextItem, previousItem}">
+    // items
+  </Carousel>
+```
+
+or
+
+```
+...
+  <Carousel ref="carousel">
+    // items
+  </Carousel>
+...
+
+// Options API
+this.$refts.carousel.nextItem()
+this.$refts.carousel.previousItem()
+
+// Composition API
+carousel.value.nextItem()
+carousel.value.previousItem()
+
+```
 
 ### Before/After Slots
 
@@ -57,18 +82,18 @@ You can use the **before**, **after** slots to add the carousel navigation, and 
 | Ref | Type | Description |
 | ------------- |:-------------:|:-------------|
 | carousel | Element | The carousel wrapper element.
-| scrollSize | number | The size of the scroll, is the **scrollLeft** for horizontal carousels and **scrollTop** for the vertical ones.
-| clientSize | number | The visible part carousel, is the **offsetWidth** for horizontal carousels and **offsetHeight** for the vertical ones.
 | items | Element[] | Carousel items.
-| active | number | Active page.
+| scrollSize | number | The size of the scroll, it's the **scrollLeft** for horizontal carousels and **scrollTop** for the vertical ones.
+| clientSize | number | The visible part carousel, it's the **offsetWidth** for horizontal carousels and **offsetHeight** for the vertical ones.
 | activeItem | Element | Closest element at the center of the viewport.
 | numberOfPages | number | Number of pages on the carousel.
 | numberOfItems | number | Number of items on the carousel.
 | rects | Array<{node: Element, rect: DOMRect}> | It's an array containing all the DOMRects of every single element on the list, this ref will only be updated once after scrolling when **animate** is false, see [Animations](#animations).
-| animationValues | number[] | Values used for animation, will only be calculated once after scrolling when **animate** is false, see [Animations](#animations).
+| active | number | Active page index.
 | isDragging | boolean | Is true when the user is dragging the carousel using the mouse, will always be false when **mouseDrag** is false.
 | isSnapping | boolean | Is true when the carousel is snapping, will always be false when **snap** is false.
-| interpolate | (value: number or undefined, center: number, side: number) => number | Helper function to interpolate animation values. see [Examples](#examples)
+| interpolate | (value: number or undefined, center: number, side: number) => number | Helper function to interpolate animation values. see [Animations](#animations).
+| animationValues | number[] | Values used on the animations, will only be calculated once after scrolling when **animate** is false, see [Animations](#animations).
 
 ### Methods
 
@@ -120,7 +145,7 @@ See [Animation Example](#animation-example)
 
 On some carousels, especially on desktop ones, you might want to show multiples items at once, on those situations, the carousel "pages" aren't dependent on the items themselves but on the available size and on the scroll size, for example, a horizontal carousel with an 2400px of scroll width and with an available width of 800px will be divided into 3 "pages", going to the second page sets the scrollWith to 1600px. Examples:
 
-![Pagination Example](https://github.com/Gustavodacrvi/vue3-carousel/blob/images/google-chrome-carousel.gif?raw=true)
+![Google Chrome Examples](https://raw.githubusercontent.com/Gustavodacrvi/vue3-carousel/main/images/google-chrome-carousel.gif)
 
 In this use case, you'll want to use the page related methods/refs, "modelValue", "nextPage", "previousPage", "numberOfPages", "moveToPage", you can still use all the other methods though.
 
