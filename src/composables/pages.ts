@@ -1,4 +1,4 @@
-import { ClientSizeRef, ModelValuePropRef, PositionRef, ActivePageComputedRef, ScrollSizeRef, ScrollToMethod, NumberOfPagesComputedRef, GoToPageMethod, CarouselCompositionSetupContext } from '@/types'
+import { ClientSizeRef, ModelValuePropRef, PositionRef, ActivePageComputedRef, ScrollSizeRef, ScrollToMethod, NumberOfPagesComputedRef, GoToPageMethod, CarouselCompositionSetupContext } from "vue3-carousel"
 import { computed, nextTick, watch } from 'vue'
 
 export default ({

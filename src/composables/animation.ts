@@ -1,5 +1,5 @@
 
-import { CarouselNodeRef, GetClosestItemAtTheCenterMethod, SaveDomRectsMethod, ItemsRef, AnimatePropRef, ClientSizeRef, IsHorizontalPropRef, RectsRef, InterpolateMethod, AnimationValuesComputedRef, CarouselCompositionSetupContext } from '@/types'
+import { CarouselNodeRef, GetClosestItemAtTheCenterMethod, SaveDomRectsMethod, ItemsRef, AnimatePropRef, ClientSizeRef, IsHorizontalPropRef, RectsRef, InterpolateMethod, AnimationValuesComputedRef, CarouselCompositionSetupContext } from "vue3-carousel"
 
 import { computed, onBeforeUnmount, onBeforeUpdate, onMounted } from 'vue'
 
@@ -55,7 +55,7 @@ export default ({
     }) as InterpolateMethod,
     animationValues: (computed(() => {
       if (!animate.value) {
-        const values = items.value.map(rect => 0)
+        const values = items.value.map(() => 0)
         emitEvent(values)
         return values
       }

@@ -1,5 +1,5 @@
 
-import { CarouselNodeRef, ScrollSizeRef, IsHorizontalPropRef, PositionRef, ClientSizeRef, ItemsRef, RectsRef, SaveDomRectsMethod, CarouselCompositionSetupContext } from '@/types'
+import { CarouselNodeRef, ScrollSizeRef, IsHorizontalPropRef, PositionRef, ClientSizeRef, ItemsRef, RectsRef, SaveDomRectsMethod, CarouselCompositionSetupContext } from "vue3-carousel"
 import { onBeforeUnmount, onBeforeUpdate, onMounted, ref, watch } from 'vue'
 
 export default ({

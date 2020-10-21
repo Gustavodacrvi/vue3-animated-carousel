@@ -1,5 +1,5 @@
 
-import { PositionPropRef, ScrollToMethod } from '@/types'
+import { PositionPropRef, ScrollToMethod } from "vue3-carousel"
 import { watch } from 'vue'
 
 export default ({

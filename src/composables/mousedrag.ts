@@ -1,4 +1,4 @@
-import { CarouselNodeRef, MouseDragPropRef, IsHorizontalPropRef, PositionRef, ScrollToMethod, IsDraggingRef, CarouselCompositionSetupContext } from '@/types'
+import { CarouselNodeRef, MouseDragPropRef, IsHorizontalPropRef, PositionRef, ScrollToMethod, IsDraggingRef, CarouselCompositionSetupContext } from "vue3-carousel"
 import { onMounted, ref, watch } from 'vue'
 
 export default ({

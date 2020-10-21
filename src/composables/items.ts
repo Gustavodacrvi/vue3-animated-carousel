@@ -1,4 +1,4 @@
-import { ActiveItemIndexComputedRef, ActiveItemRef, ClientSizeRef, GetClosestItemAtTheCenterMethod, IsHorizontalPropRef, ItemsRef, MoveToItemAtIndex, MoveToItemMethod, NextItemMethod, PositionRef, PreviousItemMethod, ActiveItemIndexPropRef, ActiveItemPropRef, RectsRef, RunOnScrollEndMethod, SaveDomRectsMethod, FocusOnClickMethod, ScrollToMethod, CarouselCompositionSetupContext } from '@/types'
+import { ActiveItemIndexComputedRef, ActiveItemRef, ClientSizeRef, GetClosestItemAtTheCenterMethod, IsHorizontalPropRef, ItemsRef, MoveToItemAtIndex, MoveToItemMethod, NextItemMethod, PositionRef, PreviousItemMethod, ActiveItemIndexPropRef, ActiveItemPropRef, RectsRef, RunOnScrollEndMethod, SaveDomRectsMethod, FocusOnClickMethod, ScrollToMethod, CarouselCompositionSetupContext } from "vue3-carousel"
 import { computed, nextTick, onBeforeUpdate, onMounted, ref, watch } from 'vue'
 
 export default ({
