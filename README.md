@@ -120,7 +120,7 @@ See [Animation Example](#animation-example)
 
 On some carousels, especially on desktop ones, you might want to show multiples items at once, on those situations, the carousel "pages" aren't dependent on the items themselves but on the available size and on the scroll size, for example, a horizontal carousel with an 2400px of scroll width and with an available width of 800px will be divided into 3 "pages", going to the second page sets the scrollWith to 1600px. Examples:
 
-![Pagination Example](https://github.com/Gustavodacrvi/vue2-custom-carousel/blob/assets/screenshots/example1.gif?raw=true)
+![Pagination Example](https://github.com/Gustavodacrvi/vue3-carousel/blob/images/google-chrome-carousel.gif?raw=true)
 
 In this use case, you'll want to use the page related methods/refs, "modelValue", "nextPage", "previousPage", "numberOfPages", "moveToPage", you can still use all the other methods though.
 
