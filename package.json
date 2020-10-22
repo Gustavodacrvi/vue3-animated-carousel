@@ -1,7 +1,7 @@
 {
   "name": "vue3-carousel",
   "version": "1.0.0",
-  "description": "",
+  "description": "Carousel made with Vue 3 Composition API and Typescript.",
   "main": "dist/vue3-carousel.ssr.js",
   "browser": "dist/vue3-carousel.esm.js",
   "module": "dist/vue3-carousel.esm.js",
@@ -10,9 +10,21 @@
   "files": [
     "dist/*",
     "vue3-carousel.d.ts",
-    "src/**/*.vue"
+    "src/**/*.vue",
+    "README.md",
+    "LICENSE"
   ],
   "sideEffects": false,
+  "keywords": ["carousel", "vue3", "composition api", "mouse drag", "snap", "animation", "flexbox", "vertical"],
+  "license": "(MIT)",
+  "author": {
+      "name": "Gustavo da Cruz Vieira",
+      "email" : "gustavodacrvi@rubble.com"
+    },
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/Gustavodacrvi/vue3-carousel.git"
+  },
   "scripts": {
     "serve": "vue-cli-service serve dev/serve.ts",
     "build": "cross-env NODE_ENV=production rollup --config build/rollup.config.js",

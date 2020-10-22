@@ -81,8 +81,6 @@ export default defineComponent({
     }
   },
   methods: {
-    tryItOut(evt: any) {
-    },
     debug(el: any) {
       console.log(el)
     },
