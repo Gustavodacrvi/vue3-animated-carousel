@@ -1,4 +1,4 @@
-import { CarouselCompositionSetupContext, CarouselNodeRef, GetClosestItemAtTheCenterMethod, InitialSnapRef, IsSnappingRef, MoveToItemMethod, RunOnScrollEndMethod, SnapPropRef } from "vue3-carousel";
+import { CarouselCompositionSetupContext, CarouselNodeRef, GetClosestItemAtTheCenterMethod, InitialSnapRef, IsSnappingRef, MoveToItemMethod, RunOnScrollEndMethod, SnapPropRef } from "vue3-animated-carousel";
 import { nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue';
 
 export default ({

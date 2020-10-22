@@ -1,15 +1,15 @@
 {
   "name": "vue3-animated-carousel",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Carousel made with Vue 3 Composition API and Typescript.",
-  "main": "dist/vue3-carousel.ssr.js",
-  "browser": "dist/vue3-carousel.esm.js",
-  "module": "dist/vue3-carousel.esm.js",
-  "unpkg": "dist/vue3-carousel.min.js",
-  "types": "vue3-carousel.d.ts",
+  "main": "dist/vue3-animated-carousel.ssr.js",
+  "browser": "dist/vue3-animated-carousel.esm.js",
+  "module": "dist/vue3-animated-carousel.esm.js",
+  "unpkg": "dist/vue3-animated-carousel.min.js",
+  "types": "vue3-animated-carousel.d.ts",
   "files": [
     "dist/*",
-    "vue3-carousel.d.ts",
+    "vue3-animated-carousel.d.ts",
     "src/**/*.vue",
     "README.md",
     "LICENSE"

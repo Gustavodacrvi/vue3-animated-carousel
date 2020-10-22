@@ -91,15 +91,15 @@
 
 import { defineComponent, ref, toRefs, computed, PropType } from 'vue'
 
-import dimensionsFeature from "./composables/dimensions"
-import pagesFeature from "./composables/pages"
-import scrollerFeature from "./composables/scroller"
-import positionFeature from "./composables/position"
-import itemsFeature from "./composables/items"
-import animationFeature from "./composables/animation"
-import snapFeature from "./composables/snap"
-import mouseFeature from "./composables/mousedrag"
-import vModelsSnapFeature from "./composables/vModelsSnap"
+import dimensionsFeature from "./composables/dimensions.ts"
+import pagesFeature from "./composables/pages.ts"
+import scrollerFeature from "./composables/scroller.ts"
+import positionFeature from "./composables/position.ts"
+import itemsFeature from "./composables/items.ts"
+import animationFeature from "./composables/animation.ts"
+import snapFeature from "./composables/snap.ts"
+import mouseFeature from "./composables/mousedrag.ts"
+import vModelsSnapFeature from "./composables/vModelsSnap.ts"
 
 export default defineComponent({
   emits: [

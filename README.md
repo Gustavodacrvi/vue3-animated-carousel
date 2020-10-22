@@ -1,5 +1,5 @@
 
-# vue3-carousel
+# vue3-animated-carousel
 
 ## TABLE OF CONTENTS
 * [Introduction](#introduction)
@@ -23,10 +23,10 @@
 
 ```
   # npm
-  npm install vue3-carousel
+  npm install vue3-animated-carousel
 
   # yarn
-  yarn add vue3-carousel
+  yarn add vue3-animated-carousel
 ```
 
 ## Introduction
@@ -161,7 +161,7 @@ See [Animations Example](#animation-example).
 
 On some carousels, especially on desktop ones, you might want to show multiples items at once, on those situations, the carousel "pages" aren't dependent on the items themselves but on the available size and on the scroll size, for example, a horizontal carousel with a 2400px of scroll width and with an available width of 800px will be divided into 3 "pages", going to the second page sets the scrollWidth to 1600px. Examples:
 
-![Google Chrome Examples](http://github.com/Gustavodacrvi/vue3-carousel/blob/images-bucket/images/google-chrome-carousel.gif?raw=true)
+![Google Chrome Examples](http://github.com/Gustavodacrvi/vue3-animated-carousel/blob/images-bucket/images/google-chrome-carousel.gif?raw=true)
 
 In this use case, you'll want to use the page related methods/refs: "modelValue", "nextPage", "previousPage", "numberOfPages", "moveToPage". You can still use all the other methods though.
 
@@ -169,7 +169,7 @@ In this use case, you'll want to use the page related methods/refs: "modelValue"
 
 Common on mobile devices and on image carousels, here you just want to show one item at a time or centralize the images-bucket item, this means the number of "pages" **might not** be equal to the number of items. Those items many times have margins and paddings, which may cause the numberOfPages to be different than the actual number of items, if that happens, the "page" like behavior carousel will simply not look good, if the image width/height is the same as the carousel offsetWidth/offsetHeight, you probably don't have to worry about this.
 
-![One Item Carousel](http://github.com/Gustavodacrvi/vue3-carousel/blob/images-bucket/images/images-carousel.gif?raw=true)
+![One Item Carousel](http://github.com/Gustavodacrvi/vue3-animated-carousel/blob/images-bucket/images/images-carousel.gif?raw=true)
 
 To prevent these problems, always use the item related methods/refs on these situations: "activeItem"(v-model), "nextItem", "items", "previousItem", "moveToItem", "moveToItemAtIndex", "focusOnClick". Those methods will go to the items themselves instead of calculating the page using using scrollSize(scrollWidth/scrollHeight) and clientSize(offsetWidth/offsetHeight).
 
@@ -192,7 +192,7 @@ If you won't use the animations, then you might as well just use the native impl
   * [Animations Example](#animation-example)
   * [Navigation And Slots Example](#navigation-and-slots-example)
 
-![Animaton Example](http://github.com/Gustavodacrvi/vue3-carousel/blob/images-bucket/images/animation-example.gif?raw=true)
+![Animaton Example](http://github.com/Gustavodacrvi/vue3-animated-carousel/blob/images-bucket/images/animation-example.gif?raw=true)
 
 ```
 <template>
@@ -293,7 +293,7 @@ h6 {
 
 ### Navigation And Slots Example
 
-![Animaton Example](http://github.com/Gustavodacrvi/vue3-carousel/blob/images-bucket/images/navigation-example.gif?raw=true)
+![Animaton Example](http://github.com/Gustavodacrvi/vue3-animated-carousel/blob/images-bucket/images/navigation-example.gif?raw=true)
 
 ```
   <div class="carousel">

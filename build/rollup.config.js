@@ -85,7 +85,7 @@ if (!argv.format || argv.format === 'es') {
     input: 'src/entry.esm.ts',
     external,
     output: {
-      file: 'dist/vue3-carousel.esm.js',
+      file: 'dist/vue3-animated-carousel.esm.js',
       format: 'esm',
       exports: 'named',
     },
@@ -117,7 +117,7 @@ if (!argv.format || argv.format === 'cjs') {
     external,
     output: {
       compact: true,
-      file: 'dist/vue3-carousel.ssr.js',
+      file: 'dist/vue3-animated-carousel.ssr.js',
       format: 'cjs',
       name: 'Vue3Carousel',
       exports: 'auto',
@@ -141,7 +141,7 @@ if (!argv.format || argv.format === 'iife') {
     external,
     output: {
       compact: true,
-      file: 'dist/vue3-carousel.min.js',
+      file: 'dist/vue3-animated-carousel.min.js',
       format: 'iife',
       name: 'Vue3Carousel',
       exports: 'auto',

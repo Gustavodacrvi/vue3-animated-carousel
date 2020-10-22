@@ -39,7 +39,7 @@
 <script lang="ts">
 
 import { defineComponent } from 'vue'
-import Carousel from '@/vue3-carousel.vue'
+import Carousel from '@/vue3-animated-carousel.vue'
 
 export default defineComponent({
   name: 'ServeDev',

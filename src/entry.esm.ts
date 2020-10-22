@@ -1,7 +1,7 @@
 import { App, DefineComponent, Plugin } from 'vue';
 
 // Import vue component
-import component from '@/vue3-carousel.vue';
+import component from '@/vue3-animated-carousel.vue';
 
 // Define typescript interfaces for installable component
 type InstallableComponent = DefineComponent & { install: Exclude<Plugin['install'], undefined> };
@@ -15,7 +15,7 @@ export default /*#__PURE__*/((): InstallableComponent => {
 
   // Attach install function executed by Vue.use()
   installable.install = (app: App) => {
-    app.component('Vue3Carousel', installable);
+    app.component('Vue3AnimatedCarousel', installable);
   };
   return installable;
 })();

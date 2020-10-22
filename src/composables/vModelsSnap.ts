@@ -1,5 +1,5 @@
 import { ref } from 'vue';
-import { ActiveItemIndexPropRef, ActiveItemRef, InitialSnapRef, ModelValuePropRef, PositionPropRef } from 'vue3-carousel';
+import { ActiveItemIndexPropRef, ActiveItemRef, InitialSnapRef, ModelValuePropRef, PositionPropRef } from 'vue3-animated-carousel';
 
 export default ({
   modelValue, propActiveItem,
