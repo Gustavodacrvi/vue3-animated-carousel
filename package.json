@@ -1,21 +1,22 @@
 {
   "name": "vue3-animated-carousel",
-  "version": "1.0.2",
+  "version": "1.0.6",
   "description": "Carousel made with Vue 3 Composition API and Typescript.",
   "main": "dist/vue3-animated-carousel.ssr.js",
   "browser": "dist/vue3-animated-carousel.esm.js",
   "module": "dist/vue3-animated-carousel.esm.js",
   "unpkg": "dist/vue3-animated-carousel.min.js",
-  "types": "vue3-animated-carousel.d.ts",
+  "types": "types.d.ts",
   "files": [
     "dist/*",
-    "vue3-animated-carousel.d.ts",
+    "types.d.ts",
     "src/**/*.vue",
+    "src/**/*.ts",
     "README.md",
     "LICENSE"
   ],
   "sideEffects": false,
-  "keywords": ["carousel", "vue3", "composition api", "mouse drag", "snap", "animation", "flexbox", "vertical"],
+  "keywords": ["carousel", "vue3", "composition api", "mouse drag", "snap", "animation", "flexbox", "vertical", "typescript"],
   "license": "(MIT)",
   "author": {
       "name": "Gustavo da Cruz Vieira",
@@ -28,6 +29,7 @@
   "scripts": {
     "serve": "vue-cli-service serve dev/serve.ts",
     "build": "cross-env NODE_ENV=production rollup --config build/rollup.config.js",
+    "types": "rimraf dist typings && tsc --emitDeclarationOnly && rollup -c",
     "build:ssr": "cross-env NODE_ENV=production rollup --config build/rollup.config.js --format cjs",
     "build:es": "cross-env NODE_ENV=production rollup --config build/rollup.config.js --format es",
     "build:unpkg": "cross-env NODE_ENV=production rollup --config build/rollup.config.js --format iife"

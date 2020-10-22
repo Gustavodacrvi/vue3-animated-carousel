@@ -1,5 +1,5 @@
 
-import { CarouselCompositionSetupContext, CarouselNodeRef, IsHorizontalPropRef, RunOnScrollEndMethod, ScrollBehaviorPropRef, ScrollToMethod } from "vue3-animated-carousel"
+import { CarouselCompositionSetupContext, CarouselNodeRef, IsHorizontalPropRef, RunOnScrollEndMethod, ScrollBehaviorPropRef, ScrollToMethod } from "types"
 import { onMounted, ref, watch } from 'vue'
 
 export default ({

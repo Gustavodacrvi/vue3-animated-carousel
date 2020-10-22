@@ -1,5 +1,5 @@
 
-import { CarouselNodeRef, GetClosestItemAtTheCenterMethod, SaveDomRectsMethod, ItemsRef, AnimatePropRef, ClientSizeRef, IsHorizontalPropRef, RectsRef, InterpolateMethod, AnimationValuesComputedRef, CarouselCompositionSetupContext } from "vue3-animated-carousel"
+import { CarouselNodeRef, GetClosestItemAtTheCenterMethod, SaveDomRectsMethod, ItemsRef, AnimatePropRef, ClientSizeRef, IsHorizontalPropRef, RectsRef, InterpolateMethod, AnimationValuesComputedRef, CarouselCompositionSetupContext } from "types"
 
 import { computed, onBeforeUnmount, onBeforeUpdate, onMounted } from 'vue'
 

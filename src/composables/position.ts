@@ -1,5 +1,5 @@
 
-import { InitialSnapRef, PositionPropRef, ScrollToMethod } from "vue3-animated-carousel"
+import { InitialSnapRef, PositionPropRef, ScrollToMethod } from "types"
 import { onMounted, watch } from 'vue'
 
 export default ({
