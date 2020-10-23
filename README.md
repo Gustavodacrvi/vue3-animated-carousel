@@ -69,7 +69,7 @@ This module uses mostly modern solutions, if you need to support super old brows
 
 ## v-models Initial Mount Precedence
 
-The initial mount precedence from higher to lower is "modelValue", "activeItemIndex", "activeItemIndex" and "position", that means if the initial **activeItemIndex** value is 3, the carousel would focus on the fourth item, however, if the initial value of **modelValue** is also 2, then the carousel will "ignore" **activeItemIndex** and go to the second page instead because modelValue has higher precedence.
+The initial mount precedence from higher to lower is "modelValue", "activeItemIndex", "activeItem" and "position", that means if the initial **activeItemIndex** value is 3, the carousel would focus on the fourth item, however, if the initial value of **modelValue** is also 2, then the carousel will "ignore" **activeItemIndex** and go to the second page instead because modelValue has higher precedence.
 
 ## Props
 
@@ -124,7 +124,7 @@ You can use the **before**, **after** slots to add the carousel navigation, and 
 | carousel | Element | The carousel wrapper element.
 | items | Element[] | Carousel items.
 | scrollSize | number | The size of the scroll, it's the **scrollLeft** for horizontal carousels and **scrollTop** for the vertical ones.
-| clientSize | number | The visible part carousel, it's the **offsetWidth** for horizontal carousels and **offsetHeight** for the vertical ones.
+| clientSize | number | The visible part of the carousel, it's the **offsetWidth** for horizontal carousels and **offsetHeight** for the vertical ones.
 | numberOfPages | number | Number of pages on the carousel.
 | active | number | Active page index.
 | activeItem | Element | Closest element at the center of the viewport.
@@ -190,15 +190,15 @@ In this use case, you'll want to use the page related methods/refs: "modelValue"
 
 ### One Item At a Time/Item At The Center
 
-Common on mobile devices and on image carousels, here you just want to show one item at a time or centralize the images-bucket item, this means the number of "pages" **might not** be equal to the number of items. Those items many times have margins and paddings, which may cause the numberOfPages to be different than the actual number of items, if that happens, the "page" like behavior carousel will simply not look good, if the image width/height is the same as the carousel offsetWidth/offsetHeight, you probably don't have to worry about this.
+Common on mobile devices and on image carousels, here you just want to show one item at a time or centralize the images item, this means the number of "pages" **might not** be equal to the number of items. Those items many times have margins and paddings, which may cause the numberOfPages to be different than the actual number of items, if that happens, the "page" like behavior carousel will simply not look good, if the image width/height is the same as the carousel offsetWidth/offsetHeight, you probably don't have to worry about this.
 
 ![One Item Carousel](http://github.com/Gustavodacrvi/vue3-animated-carousel/blob/images-bucket/images/images-carousel.gif?raw=true)
 
-To prevent these problems, always use the item related methods/refs on these situations: "activeItem"(v-model), "nextItem", "items", "previousItem", "moveToItem", "moveToItemAtIndex", "focusOnClick". Those methods will go to the items themselves instead of calculating the page using using scrollSize(scrollWidth/scrollHeight) and clientSize(offsetWidth/offsetHeight).
+To prevent these problems, always use the item related methods/refs on these situations: "activeItem"(v-model:activeItem), "nextItem", "items", "previousItem", "moveToItem", "moveToItemAtIndex", "focusOnClick". Those methods will go to the items themselves instead of calculating the page using using scrollSize(scrollWidth/scrollHeight) and clientSize(offsetWidth/offsetHeight).
 
 ### Responsive Carousel
 
-Sometimes you want to show multiple items on desktop and one item at a time on smaller devices, you can then use the scrollSize and change the event handles. See example.
+Sometimes you want to show multiple items on desktop and one item at a time on smaller devices, you can then use the scrollSize and change the event handlers functions on the template.
 
 
 ## "scroll-snap-align" Animation Issue
