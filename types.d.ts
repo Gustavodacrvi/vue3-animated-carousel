@@ -1,4 +1,4 @@
-import { DefineComponent, Plugin, ComputedRef, Ref, SetupContext, PropType } from 'vue';
+import { DefineComponent, ComponentPublicInstance, Plugin, ComputedRef, Ref, SetupContext, PropType } from 'vue';
 
 declare const Vue3AnimatedCarousel: DefineComponent<{
   modelValue: {
@@ -77,6 +77,7 @@ declare const Vue3AnimatedCarousel: DefineComponent<{
   isDragging: IsDraggingRef;
 }>;
 
+
 export default Vue3AnimatedCarousel
 
 type CarouselEventsUnion = ("number-of-pages" | "client-size" | "scroll-size" | "rects" | "items" | "mouse-drag-start" | "mouse-drag-end" | "scroll-start" | "scroll-end" | "snap-start" | "snap-end" | "animation-values" | "update:modelValue" | "update:activeItem" | "update:activeItemIndex" | "update:position")[]
@@ -110,7 +111,7 @@ export type FocusOnClickMethod = (evt: MouseEvent) => Element | null;
 export type GoToPageMethod = (pageIndex: number) => number;
 
 export type InitialSnapRef = Ref<null | 'page' | 'position' | 'item' | 'itemIndex'>;
-export type GetClosestItemAtTheCenterMethod = (getRects?: boolean) => Element;
+export type GetClosestItemAtTheCenterMethod = (shouldSaveDomRects?: boolean) => Element;
 export type RunOnScrollEndMethod = (func: () => void) => void;
 export type MoveToItemMethod = (element: Element | HTMLElement | null) => void;
 export type CarouselNodeRef = Ref<HTMLElement>;
@@ -128,3 +129,33 @@ export type ActiveItemIndexComputedRef = ComputedRef<number>;
 export type ActivePageComputedRef = ComputedRef<number>;
 export type NumberOfPagesComputedRef = ComputedRef<number>;
 
+export type CarouselRef = ComponentPublicInstance<unknown, unknown, unknown, {}, {
+  saveDomRects: () => ItemRect[];
+  scrollTo: (options: {
+    position: number;
+    force?: boolean;
+    behavior?: string;
+  }) => void;
+  runOnScrollEnd: (func: () => void) => void;
+  moveToItem: (element: Element | HTMLElement | null) => void;
+  nextItem: () => Element | undefined;
+  previousItem: () => Element | undefined;
+  getClosestItemAtTheCenter: (shouldSaveDomRects?: boolean) => Element;
+  focusOnClick: (evt: MouseEvent) => Element | null;
+  moveToItemAtIndex: (chlidNodeIndex: number) => Element | undefined;
+  interpolate: (value: number | undefined, center: number, side: number) => number;
+}>
+
+export type NumberOfPagesEvent = (numberOfPages: number) => void;
+export type ClientSizeEvent = (clientSize: number) => void;
+export type ScrollSizeEvent = (scrollSize: number) => void;
+export type RectsEvent = (rects: Array<{node: Element, rect: DOMRect}>) => void;
+export type ItemsEvent = (items: Element[]) => void;
+
+export type MouseDragStartEvent = () => void;
+export type MouseDragEndEvent = () => void;
+export type ScrollStartStartEvent = () => void;
+export type ScrollStartEndEvent = () => void;
+export type SnapStartEvent = () => void;
+export type SnapEndEvent = () => void;
+export type AnimationValuesEvent = (animationValues: number[]) => void;
