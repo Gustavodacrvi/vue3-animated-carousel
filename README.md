@@ -34,23 +34,22 @@
 
 I couldn't get the component props intelliSense to work properly yet, since Vue 3 doesn't have a very friendly typescript component definitions guide, it might also be a problem with Vetur, I'll once in a while come back and try to make it work.
 
-But you can still import the definitions of the carousel ref and the events to use on the <script>.
+But you can still import the definitions of the carousel ref and the events to use on the script.
 
 ```
+  <Carousel ref="carousel">
+    // code
+  </Carousel>
 
-<Carousel ref="carousel">
-  // code
-</Carousel>
-...
-import AnimatedCarousel, { CarouselRef, RectsEvent } from "vue3-animated-carousel"
-...
-const carouselComponentRef = carousel.value as CarouselRef
+  import AnimatedCarousel, { CarouselRef, RectsEvent } from "vue3-animated-carousel"
+  ...
+  const carouselComponentRef = carousel.value as CarouselRef
 
-carouselComponentRef.$props
-carouselComponentRef.nextItem()
-...
+  carouselComponentRef.$props
+  carouselComponentRef.nextItem()
+  ...
 const componentRectsEventListener: RectsEvent = console.log
-...
+
 ```
 
 ## Introduction
