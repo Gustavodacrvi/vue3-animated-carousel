@@ -1,5 +1,5 @@
 
-import { InitialSnapRef, PositionPropRef, ScrollToMethod } from "types"
+import { InitialSnapRef, PositionPropRef, ScrollToMethod } from "./../index"
 import { onMounted, watch } from 'vue'
 
 export default ({

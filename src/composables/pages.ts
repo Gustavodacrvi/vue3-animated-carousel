@@ -1,4 +1,4 @@
-import { ClientSizeRef, ModelValuePropRef, PositionRef, ActivePageComputedRef, ScrollSizeRef, ScrollToMethod, NumberOfPagesComputedRef, GoToPageMethod, CarouselCompositionSetupContext, InitialSnapRef } from "types"
+import { ClientSizeRef, ModelValuePropRef, PositionRef, ActivePageComputedRef, ScrollSizeRef, ScrollToMethod, NumberOfPagesComputedRef, GoToPageMethod, CarouselCompositionSetupContext, InitialSnapRef } from "./../index"
 import { computed, nextTick, onMounted, watch } from 'vue'
 
 export default ({

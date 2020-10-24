@@ -1,4 +1,4 @@
-import { ActiveItemIndexComputedRef, ActiveItemRef, ClientSizeRef, GetClosestItemAtTheCenterMethod, IsHorizontalPropRef, ItemsRef, MoveToItemAtIndex, MoveToItemMethod, NextItemMethod, PositionRef, PreviousItemMethod, ActiveItemIndexPropRef, ActiveItemPropRef, RectsRef, RunOnScrollEndMethod, SaveDomRectsMethod, FocusOnClickMethod, ScrollToMethod, CarouselCompositionSetupContext, InitialSnapRef } from "types"
+import { ActiveItemIndexComputedRef, ActiveItemRef, ClientSizeRef, GetClosestItemAtTheCenterMethod, IsHorizontalPropRef, ItemsRef, MoveToItemAtIndex, MoveToItemMethod, NextItemMethod, PositionRef, PreviousItemMethod, ActiveItemIndexPropRef, ActiveItemPropRef, RectsRef, RunOnScrollEndMethod, SaveDomRectsMethod, FocusOnClickMethod, ScrollToMethod, CarouselCompositionSetupContext, InitialSnapRef } from "./../index"
 import { computed, nextTick, onMounted, ref, watch } from 'vue'
 
 export default ({
@@ -90,6 +90,7 @@ export default ({
     saveDomRects()
     getClosestItemAtTheCenter()
     runOnScrollEnd(infiniteLoop)
+    return;
   })
 
   watch(activeItemIndex, val => emit("update:activeItemIndex", val), {flush: "post"})

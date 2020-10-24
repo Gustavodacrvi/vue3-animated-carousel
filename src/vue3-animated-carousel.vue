@@ -91,15 +91,25 @@
 
 import { defineComponent, ref, toRefs, computed, PropType } from 'vue'
 
-import dimensionsFeature from "./composables/dimensions"
-import pagesFeature from "./composables/pages"
-import scrollerFeature from "./composables/scroller"
-import positionFeature from "./composables/position"
-import itemsFeature from "./composables/items"
-import animationFeature from "./composables/animation"
-import snapFeature from "./composables/snap"
-import mouseFeature from "./composables/mousedrag"
-import vModelsSnapFeature from "./composables/vModelsSnap"
+// Needs to have ".ts" at the end, otherwise rollup throws error on build =/
+// @ts-ignore
+import dimensionsFeature from "./composables/dimensions.ts"
+// @ts-ignore
+import pagesFeature from "./composables/pages.ts"
+// @ts-ignore
+import scrollerFeature from "./composables/scroller.ts"
+// @ts-ignore
+import positionFeature from "./composables/position.ts"
+// @ts-ignore
+import itemsFeature from "./composables/items.ts"
+// @ts-ignore
+import animationFeature from "./composables/animation.ts"
+// @ts-ignore
+import snapFeature from "./composables/snap.ts"
+// @ts-ignore
+import mouseFeature from "./composables/mousedrag.ts"
+// @ts-ignore
+import vModelsSnapFeature from "./composables/vModelsSnap.ts"
 
 export default defineComponent({
   emits: [

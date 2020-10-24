@@ -1,84 +1,4 @@
-import { DefineComponent, ComponentPublicInstance, Plugin, ComputedRef, Ref, SetupContext, PropType } from 'vue';
-
-declare const Vue3AnimatedCarousel: DefineComponent<{
-  modelValue: {
-    type: PropType<number>,
-    default: 0,
-  },
-  position: {
-    type: PropType<number>,
-    default: 0,
-  },
-  activeItem: {
-    type: PropType<Element>,
-    default: null,
-  },
-  activeItemIndex: {
-    type: PropType<number>,
-    default: 0,
-  },
-  direction: {
-    type: PropType<"horizontal" | "vertical">,
-    default: "horizontal",
-  },
-
-  useFlexBox: {
-    type: PropType<boolean>,
-    default: true,
-  },
-  scrollBehavior: {
-    type: PropType<string>,
-    default: "smooth",
-  },
-  scrollSnapType: {
-    type: PropType<string>,
-    default: "both mandatory",
-  },
-  animate: {
-    type: PropType<boolean>,
-    default: false,
-  },
-  hideScroll: {
-    type: PropType<boolean>,
-    default: true,
-  },
-  snap: {
-    type: PropType<boolean>,
-    default: false,
-  },
-  mouseDrag: {
-    type: PropType<boolean>,
-    default: false,
-  },
-}, {
-  saveDomRects: SaveDomRectsMethod;
-  scrollTo: ScrollToMethod;
-  runOnScrollEnd: RunOnScrollEndMethod;
-  moveToItem: MoveToItemMethod;
-  nextItem: NextItemMethod;
-  previousItem: PreviousItemMethod;
-  getClosestItemAtTheCenter: GetClosestItemAtTheCenterMethod;
-  focusOnClick: FocusOnClickMethod;
-  moveToItemAtIndex: MoveToItemAtIndex;
-  interpolate: InterpolateMethod;
-  
-  carousel: CarouselNodeRef;
-  activeItem: ActiveItemRef;
-  activeItemIndex: ActiveItemIndexComputedRef;
-  position: PositionRef;
-  scrollSize: ScrollSizeRef;
-  clientSize: ClientSizeRef;
-  rects: RectsRef;
-  items: ItemsRef;
-  active: ActivePageComputedRef;
-  numberOfPages: NumberOfPagesComputedRef;
-  animationValues: AnimationValuesComputedRef;
-  isSnapping: IsSnappingRef;
-  isDragging: IsDraggingRef;
-}>;
-
-
-export default Vue3AnimatedCarousel
+import { ComputedRef, Ref, SetupContext } from 'vue';
 
 type CarouselEventsUnion = ("number-of-pages" | "client-size" | "scroll-size" | "rects" | "items" | "mouse-drag-start" | "mouse-drag-end" | "scroll-start" | "scroll-end" | "snap-start" | "snap-end" | "animation-values" | "update:modelValue" | "update:activeItem" | "update:activeItemIndex" | "update:position")[]
 
@@ -129,23 +49,6 @@ export type ActiveItemIndexComputedRef = ComputedRef<number>;
 export type ActivePageComputedRef = ComputedRef<number>;
 export type NumberOfPagesComputedRef = ComputedRef<number>;
 
-export type CarouselRef = ComponentPublicInstance<unknown, unknown, unknown, {}, {
-  saveDomRects: () => ItemRect[];
-  scrollTo: (options: {
-    position: number;
-    force?: boolean;
-    behavior?: string;
-  }) => void;
-  runOnScrollEnd: (func: () => void) => void;
-  moveToItem: (element: Element | HTMLElement | null) => void;
-  nextItem: () => Element | undefined;
-  previousItem: () => Element | undefined;
-  getClosestItemAtTheCenter: (shouldSaveDomRects?: boolean) => Element;
-  focusOnClick: (evt: MouseEvent) => Element | null;
-  moveToItemAtIndex: (chlidNodeIndex: number) => Element | undefined;
-  interpolate: (value: number | undefined, center: number, side: number) => number;
-}>
-
 export type NumberOfPagesEvent = (numberOfPages: number) => void;
 export type ClientSizeEvent = (clientSize: number) => void;
 export type ScrollSizeEvent = (scrollSize: number) => void;
@@ -159,3 +62,16 @@ export type ScrollStartEndEvent = () => void;
 export type SnapStartEvent = () => void;
 export type SnapEndEvent = () => void;
 export type AnimationValuesEvent = (animationValues: number[]) => void;
+
+
+import { App } from 'vue';
+import Vue3AnimatedCarousel from './vue3-animated-carousel.vue';
+
+const plugin = {
+    install(vue: App): void {
+        vue.component('Vue3AnimatedCarousel', Vue3AnimatedCarousel);
+    },
+};
+
+export { plugin };
+export default Vue3AnimatedCarousel;

@@ -1,5 +1,5 @@
 import { ref } from 'vue';
-import { ActiveItemIndexPropRef, ActiveItemRef, InitialSnapRef, ModelValuePropRef, PositionPropRef } from 'types';
+import { ActiveItemIndexPropRef, ActiveItemRef, InitialSnapRef, ModelValuePropRef, PositionPropRef } from './../index';
 
 export default ({
   modelValue, propActiveItem,

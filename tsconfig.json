@@ -1,37 +1,68 @@
 {
-    "compilerOptions": {
-        "target": "esnext",
-        "module": "esnext",
-        "strict": true,
-        "declaration": true,
-        "declarationDir": "dist",
-        "noUnusedLocals": true,
-        "noUnusedParameters": true,
-        "importHelpers": true,
-        "moduleResolution": "node",
-        "experimentalDecorators": true,
-        "esModuleInterop": true,
-        "allowSyntheticDefaultImports": true,
-        "sourceMap": true,
-        "baseUrl": ".",
-        "types": [
-            "node",
-            "vue"
-        ],
-        "paths": {
-            "@/*": [
-                "src/*"
-            ]
-        },
-        "lib": [
-            "esnext",
-            "dom",
-            "dom.iterable",
-            "scripthost"
-        ]
-    },
-    "exclude": [
-        "node_modules",
-        "dist"
-    ]
+  "compilerOptions": {
+      "strict": true,
+
+      "target": "esnext",
+      "module": "esnext",
+      "moduleResolution": "node",
+
+      "sourceMap": true,
+      "declaration": true,
+
+      "outDir": "./dist",
+      
+      // Muss ausgeschaltet sein sonst kommt
+      //      "TypeError: tests/unit/xxxx.ts: Emit skipped"
+      // "rootDir": "./src",
+
+      "noImplicitAny": true,
+      "noImplicitThis": true,
+      "noImplicitReturns": true,
+      "noEmitOnError": true,
+      "strictNullChecks": true,
+      "preserveConstEnums": false,
+      "removeComments": false,
+      "experimentalDecorators": true,
+      "allowSyntheticDefaultImports": true,
+
+      "esModuleInterop": true,
+
+      "jsx": "preserve",
+      "importHelpers": true,
+
+      "baseUrl": ".",
+      "types": [
+          "webpack-env",
+          /* "jest-extended" , */
+          "node",
+      ],
+      "paths": {
+          "@/*": ["src/*"]
+      },
+      "lib": ["esnext", "dom", "dom.iterable", "scripthost"],
+      "plugins": [
+          {
+              "name": "typescript-tslint-plugin"
+          }
+      ]
+  },
+  "include": [
+      // Source
+      "src/**/*.ts",
+      "src/**/*.tsx",
+      "src/**/*.vue",
+
+      // Tests
+      "tests/**/*.ts",
+      "tests/**/*.tsx",
+
+      // Damit werden die images erkannt
+      "src/browser/**/*.ts",
+      "src/site/images/typings.d.ts",
+      "src/site/images"
+  ],
+  "exclude": ["node_modules"],
+  "files": [
+      "shims-vue.d.ts"
+  ]
 }

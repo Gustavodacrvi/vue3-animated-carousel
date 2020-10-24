@@ -1,5 +1,5 @@
 
-import { CarouselCompositionSetupContext, CarouselNodeRef, IsHorizontalPropRef, RunOnScrollEndMethod, ScrollBehaviorPropRef, ScrollToMethod } from "types"
+import { CarouselCompositionSetupContext, CarouselNodeRef, IsHorizontalPropRef, RunOnScrollEndMethod, ScrollBehaviorPropRef, ScrollToMethod } from "./../index"
 import { onMounted, ref, watch } from 'vue'
 
 export default ({
@@ -37,6 +37,7 @@ export default ({
     scrolling.value = false
     scrollEndActions.value.forEach(func => func())
     scrollEndActions.value = []
+    return;
   }
   
   let timeout: any
